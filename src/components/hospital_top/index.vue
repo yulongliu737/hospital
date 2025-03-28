@@ -3,9 +3,8 @@
 </script>
 
 <template>
-  <div class="container">
-    <!-- 顶部全局组件 -->
-    <HospitalTop></HospitalTop>
+  <div>
+    top
   </div>
 </template>
 

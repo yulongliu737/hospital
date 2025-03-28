@@ -1,11 +1,9 @@
 <script setup lang="ts">
-
+import Carousel from './carousel/index.vue'
 </script>
 
 <template>
-<div class="home">
-  home
-</div>
+  <Carousel></Carousel>
 </template>
 
 <style scoped>

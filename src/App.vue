@@ -6,7 +6,9 @@
   <div class="container">
     <!-- 顶部全局组件 -->
     <HospitalTop></HospitalTop>
-    <div class="content">content</div>
+    <div class="content">
+      <router-view></router-view>
+    </div>
     <HospitalBottom></HospitalBottom>
   </div>
 </template>

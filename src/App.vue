@@ -19,8 +19,8 @@
   .content {
     margin-top: 80px;
     width: 1600px;
-    height: 800px;
-    background-color: #55a6fe;
+    height: 740px;
+    background-color: #ffffff;
   }
 }
 </style>

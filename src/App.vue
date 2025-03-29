@@ -28,7 +28,7 @@
     margin-bottom: 10px;
   }
   .bottom {
-    margin-top: 50px;
+    margin-top: 200px;
     width: 100%;
   }
 }

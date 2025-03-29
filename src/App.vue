@@ -1,5 +1,11 @@
 <script setup lang="ts">
-
+import request from './utils/request'
+import {onMounted} from "vue"
+onMounted(() => {
+  request.get('/hosp/hospital/1/10').then(res => {
+    console.log("收到了服务器的数据：" + JSON.stringify(res))
+  })
+})
 </script>
 
 <template>

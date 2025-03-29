@@ -4,6 +4,9 @@ import Search from './search/index.vue'
 import Level from '@/pages/home/level/index.vue'
 import Region from '@/pages/home/region/index.vue'
 import Card from '@/pages/home/card/index.vue'
+import {ref} from 'vue'
+let curPage = ref<number>(1);
+let pageSize = ref<number>(10);
 </script>
 
 <template>
@@ -16,16 +19,13 @@ import Card from '@/pages/home/card/index.vue'
       <div class="hospitals">
         <Card class="card" v-for="item in 10" :key="item"></Card>
         <el-pagination
-            v-model:current-page="currentPage4"
-            v-model:page-size="pageSize4"
-            :page-sizes="[100, 200, 300, 400]"
-            :small="small"
-            :disabled="disabled"
-            :background="background"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
+            v-model:current-page="curPage"
+            v-model:page-size="pageSize"
+            :page-sizes="[10, 20, 30, 40]"
+            :background="true"
+            layout="prev, pager, next, total, ->, jumper, sizes"
+            :total="13"
+            style="width: 100%;"
         />
       </div>
     </el-col>
@@ -40,6 +40,7 @@ import Card from '@/pages/home/card/index.vue'
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
   .card {
     width: 48%;
     margin: 10px 6px;

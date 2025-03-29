@@ -7,7 +7,7 @@
     <div class="content">
       <div class="top-left">
         <img src="../../assets/images/logo.png">
-        <p>医脉通 预约挂号统一平台</p>
+        <p>尚医通 预约挂号统一平台</p>
       </div>
       <div class="top-right">
         <p class="help">帮助中心</p>

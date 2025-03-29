@@ -9,8 +9,10 @@
     <div class="content">
       <router-view></router-view>
     </div>
-    <HospitalBottom></HospitalBottom>
-  </div>
+    <div class="bottom">
+      <HospitalBottom></HospitalBottom>
+    </div>
+    </div>
 </template>
 
 <style scoped>
@@ -23,6 +25,11 @@
     width: 1600px;
     height: 740px;
     background-color: #ffffff;
+    margin-bottom: 10px;
+  }
+  .bottom {
+    margin-top: 50px;
+    width: 100%;
   }
 }
 </style>

@@ -7,6 +7,7 @@ import Card from '@/pages/home/card/index.vue'
 import {onMounted, ref} from 'vue'
 import {reqHospital} from "@/api/home";
 import type {Content, HospitalResponseData} from "@/api/home/type.ts";
+
 let curPage = ref<number>(1)
 let pageSize = ref<number>(10)
 let hospitalArr = ref<Content>([])
@@ -17,7 +18,7 @@ onMounted(() => {
 
 // 获取已有的医院数据
 const getHospitalInfo = async () => {
-  let res: HospitalResponseData = await reqHospital(curPage.value, pageSize.value);
+  let res: HospitalResponseData = await reqHospital(curPage.value, pageSize.value, hostype.value, districtCode.value);
   if (res.code === 200) {
     hospitalArr.value = res.data.content;
     total.value = res.data.totalElements;
@@ -33,6 +34,19 @@ const currentChange = async () => {
 const sizeChange = async () => {
   await getHospitalInfo()
 }
+
+let hostype = ref<string>('')
+let districtCode = ref<string>('')
+
+async function getLevel(val: string) {
+  hostype.value = val
+  await getHospitalInfo()
+}
+
+async function getRegion(val: string) {
+  districtCode.value = val
+  await getHospitalInfo()
+}
 </script>
 
 <template>
@@ -40,10 +54,10 @@ const sizeChange = async () => {
   <Search></Search>
   <el-row :gutter="20">
     <el-col :span="20">
-      <Level></Level>
-      <Region></Region>
+      <Level @getLevel="getLevel"></Level>
+      <Region @getRegion="getRegion"></Region>
       <div class="hospitals">
-        <Card class="card" v-for="(item, index) in hospitalArr" :key="index" :hospitalInfo = "item"></Card>
+        <Card class="card" v-for="(item, index) in hospitalArr" :key="index" :hospitalInfo="item"></Card>
         <el-pagination
             v-model:current-page="curPage"
             v-model:page-size="pageSize"
@@ -69,6 +83,7 @@ const sizeChange = async () => {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+
   .card {
     width: 48%;
     margin: 10px 6px;

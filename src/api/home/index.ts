@@ -10,6 +10,6 @@ enum API {
     HOSPITAL_LEVEL_AND_REGION_URL = '/cmn/dict/findByDictCode/'
 }
 
-export const reqHospital = (page:number, limit:number) => request.get<any, HospitalResponseData>(API.HOSPITAL_URL + `${page}/${limit}`)
+export const reqHospital = (page:number, limit:number, hosType='', districtCode = '') => request.get<any, HospitalResponseData>(API.HOSPITAL_URL + `${page}/${limit}?hostype=${hosType}&districtCode=${districtCode}`,)
 
 export const reqHospitalLevelAndRegion = (dictCode: string) => request.get<any, HospitalLevelAndRegionResponseData>(API.HOSPITAL_LEVEL_AND_REGION_URL + `${dictCode}`)

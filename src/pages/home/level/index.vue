@@ -20,7 +20,10 @@ let activeFlag = ref<string>('')
 
 const changeLevel = (val: string) => {
   activeFlag.value = val
+  $emit('getLevel', val)
 }
+
+let $emit = defineEmits(['getLevel'])
 </script>
 
 <template>

@@ -20,7 +20,10 @@ let activeFlag = ref<string>('')
 
 const changeRegion = (val: string) => {
   activeFlag.value = val
+  $emit('getRegion', val)
 }
+
+let $emit = defineEmits(['getRegion'])
 </script>
 
 <template>

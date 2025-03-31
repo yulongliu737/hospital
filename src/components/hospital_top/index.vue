@@ -1,11 +1,15 @@
 <script setup lang="ts">
-
+import {useRouter} from "vue-router";
+let $router = useRouter()
+const goHome = () => {
+  $router.push({path:'/home'})
+}
 </script>
 
 <template>
   <div class="top">
     <div class="content">
-      <div class="top-left">
+      <div class="top-left" @click="goHome" style="cursor: pointer;">
         <img src="../../assets/images/logo.png">
         <p>尚医通 预约挂号统一平台</p>
       </div>

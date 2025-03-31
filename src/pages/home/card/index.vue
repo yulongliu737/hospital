@@ -1,10 +1,16 @@
 <script setup lang="ts">
+ import {useRouter} from "vue-router";
+
  defineProps(['hospitalInfo'])
+ let $router = useRouter()
+ const goDetail = () => {
+   $router.push({path:'/hospital'})
+ }
 </script>
 
 <template>
   <div class="card">
-    <el-card class="box-card" shadow="hover">
+    <el-card class="box-card" shadow="hover" @click="goDetail">
       <div class = "content">
         <div class="left">
           <div class="hospital_name">

@@ -3,6 +3,7 @@
   import {ref} from "vue";
   import type {HospitalInfo} from "@/api/home/type.ts";
   import {reqHospitalInfo} from "@/api/home";
+  import {useRouter} from "vue-router";
   let hosname = ref<string>('')
   defineOptions({
     name: "HospitalSearch"
@@ -27,6 +28,12 @@
     }
   }
 
+  let $router = useRouter()
+  // 点击某个推荐项目触发
+  const goDetail =  (item: any) => {
+    $router.push({path:'/hospital'})
+  }
+
 </script>
 
 <template>
@@ -39,6 +46,7 @@
           v-model="hosname"
           :trigger-on-focus="false"
           :fetch-suggestions="fetchSuggestions"
+          @select="goDetail"
       />
       <el-button type="primary" :icon="Search" class="searchBtn">搜索</el-button>
     </div>

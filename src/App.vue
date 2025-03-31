@@ -4,35 +4,44 @@
 <template>
   <div class="container">
     <HospitalTop></HospitalTop>
-    <div class="top-section">
-      <div class="input-container" id="inputContainer">
-        <router-view></router-view>
+    <div class="content-wrapper">
+      <div class="top-section">
+        <div class="input-container" id="inputContainer">
+          <router-view></router-view>
+        </div>
       </div>
-    </div>
-    <div class="bottom-section">
-      <HospitalBottom></HospitalBottom>
+      <div class="bottom-section">
+        <HospitalBottom></HospitalBottom>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .container {
-  min-height: 100%;
+  min-height: 100vh; /* 使用视窗高度单位 */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1; /* 占据剩余空间 */
   position: relative;
+  padding-bottom: 70px; /* 为底部区域预留空间 */
 }
 
 .top-section {
   background-color: #ffffff;
-  /* 为下部区域留出空间 */
-  padding: 20px 20px 70px;
+  padding: 20px;
 }
 
 .bottom-section {
   background-color: gray;
-  height: 50px;
+  height: 70px;
   width: 100%;
-  position: absolute;
+  position: absolute; /* 改为absolute */
   bottom: 0;
+  left: 0;
 }
 
 .input-container {

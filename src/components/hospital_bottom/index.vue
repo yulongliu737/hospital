@@ -19,7 +19,7 @@
 <style scoped>
 .bottom {
   width: 100%;
-  height: 100px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   background-color: #f0f2f5;

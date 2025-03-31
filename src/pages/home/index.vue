@@ -56,7 +56,7 @@ async function getRegion(val: string) {
     <el-col :span="20">
       <Level @getLevel="getLevel"></Level>
       <Region @getRegion="getRegion"></Region>
-      <div class="hospitals">
+      <div class="hospitals" v-show="hospitalArr.length">
         <Card class="card" v-for="(item, index) in hospitalArr" :key="index" :hospitalInfo="item"></Card>
         <el-pagination
             v-model:current-page="curPage"
@@ -70,6 +70,7 @@ async function getRegion(val: string) {
             @size-change="sizeChange()"
         />
       </div>
+      <el-empty description="没有可以展示的医院" v-show="hospitalArr.length === 0"/>
     </el-col>
     <el-col :span="4">
       456

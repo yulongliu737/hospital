@@ -1,5 +1,32 @@
 <script setup lang="ts">
   import { Search } from '@element-plus/icons-vue'
+  import {ref} from "vue";
+  import type {HospitalInfo} from "@/api/home/type.ts";
+  import {reqHospitalInfo} from "@/api/home";
+  let hosname = ref<string>('')
+  defineOptions({
+    name: "HospitalSearch"
+  })
+
+  const fetchSuggestions = async (_:string, callback: any) => {
+    let hosInfos = await getHospitalInfos();
+    let showInfoMap = hosInfos?.data.map(item => {
+      return {
+        value: item.hosname,
+        hoscode: item.hoscode
+      }
+    })
+    // 执行此回调函数渲染数据
+    callback(showInfoMap)
+  }
+
+  const getHospitalInfos = async () => {
+    let res: HospitalInfo = await reqHospitalInfo(hosname.value);
+    if (res.code === 200) {
+      return res;
+    }
+  }
+
 </script>
 
 <template>
@@ -9,6 +36,9 @@
           clearable
           placeholder="请输入医院名称"
           class="search-autocomplete"
+          v-model="hosname"
+          :trigger-on-focus="false"
+          :fetch-suggestions="fetchSuggestions"
       />
       <el-button type="primary" :icon="Search" class="searchBtn">搜索</el-button>
     </div>

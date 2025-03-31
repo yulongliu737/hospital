@@ -86,3 +86,7 @@ export type HospitalLevelAndRegionArr = HospitalLevelAndRegion[];
 export interface HospitalLevelAndRegionResponseData extends ResponseData {
     data: HospitalLevelAndRegion[];
 }
+
+export interface HospitalInfo extends ResponseData {
+    data: Content
+}

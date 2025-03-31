@@ -1,41 +1,51 @@
 <script setup lang="ts">
-// import request from './utils/request'
-import {onMounted} from "vue"
-onMounted(() => {
-  // request.get('/hosp/hospital/1/10').then(res => {
-  //   console.log("收到了服务器的数据：" + JSON.stringify(res))
-  // })
-})
 </script>
 
 <template>
   <div class="container">
-    <!-- 顶部全局组件 -->
     <HospitalTop></HospitalTop>
-    <div class="content">
-      <router-view></router-view>
+    <div class="top-section">
+      <div class="input-container" id="inputContainer">
+        <router-view></router-view>
+      </div>
     </div>
-    <div class="bottom">
+    <div class="bottom-section">
       <HospitalBottom></HospitalBottom>
     </div>
-    </div>
+  </div>
 </template>
 
 <style scoped>
-.container{
+.container {
+  min-height: 100%;
+  position: relative;
+}
+
+.top-section {
+  background-color: #ffffff;
+  /* 为下部区域留出空间 */
+  padding: 20px 20px 70px;
+}
+
+.bottom-section {
+  background-color: gray;
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.input-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  .content {
-    margin-top: 80px;
-    width: 1600px;
-    height: 740px;
-    background-color: #ffffff;
-    margin-bottom: 10px;
-  }
-  .bottom {
-    margin-top: 200px;
-    width: 100%;
-  }
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 </style>

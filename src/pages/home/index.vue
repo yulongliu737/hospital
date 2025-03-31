@@ -24,6 +24,15 @@ const getHospitalInfo = async () => {
   }
   return res
 }
+
+// 分页器页码发生变化时候回调
+const currentChange = async () => {
+  await getHospitalInfo()
+}
+// 下拉选项变化时
+const sizeChange = async () => {
+  await getHospitalInfo()
+}
 </script>
 
 <template>
@@ -41,8 +50,10 @@ const getHospitalInfo = async () => {
             :page-sizes="[10, 20, 30, 40]"
             :background="true"
             layout="prev, pager, next, total, ->, jumper, sizes"
-            :total="13"
+            :total="total"
             style="width: 100%;"
+            @current-change="currentChange()"
+            @size-change="sizeChange()"
         />
       </div>
     </el-col>

@@ -4,9 +4,26 @@ import Search from './search/index.vue'
 import Level from '@/pages/home/level/index.vue'
 import Region from '@/pages/home/region/index.vue'
 import Card from '@/pages/home/card/index.vue'
-import {ref} from 'vue'
-let curPage = ref<number>(1);
-let pageSize = ref<number>(10);
+import {onMounted, ref} from 'vue'
+import {reqHospital} from "@/api/home";
+let curPage = ref<number>(1)
+let pageSize = ref<number>(10)
+let hospitalArr = ref([])
+let total = ref(0)
+onMounted(() => {
+  getHospitalInfo()
+})
+
+// 获取已有的医院数据
+const getHospitalInfo = async () => {
+  let res: any = await reqHospital(curPage.value, pageSize.value);
+  console.log(JSON.stringify("已有医院数据:" + JSON.stringify(res)));
+  if (res.code === 200) {
+    hospitalArr.value = res.data.content;
+    total.value = res.data.totalElements;
+  }
+  return res
+}
 </script>
 
 <template>
@@ -17,7 +34,7 @@ let pageSize = ref<number>(10);
       <Level></Level>
       <Region></Region>
       <div class="hospitals">
-        <Card class="card" v-for="item in 10" :key="item"></Card>
+        <Card class="card" v-for="(item, index) in hospitalArr" :key="index" :hospitalInfo = "item"></Card>
         <el-pagination
             v-model:current-page="curPage"
             v-model:page-size="pageSize"

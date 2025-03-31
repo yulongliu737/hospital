@@ -16,6 +16,11 @@ const getHospitalLevel = async () => {
     levelArr.value = res.data
   }
 }
+let activeFlag = ref<string>('')
+
+const changeLevel = (val: string) => {
+  activeFlag.value = val
+}
 </script>
 
 <template>
@@ -26,8 +31,8 @@ const getHospitalLevel = async () => {
         等级：
       </div>
       <ul class="hospital">
-        <li class="active">全部</li>
-        <li v-for="item in levelArr" :key = "item.id">{{ item.name }}</li>
+        <li :class="{active:activeFlag === ''}" @click="changeLevel('')">全部</li>
+        <li :class="{active:activeFlag === item.value}" v-for="item in levelArr" :key = "item.value" @click="changeLevel(item.value)">{{ item.name }}</li>
       </ul>
     </div>
   </div>

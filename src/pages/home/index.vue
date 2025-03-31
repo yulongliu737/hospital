@@ -6,17 +6,18 @@ import Region from '@/pages/home/region/index.vue'
 import Card from '@/pages/home/card/index.vue'
 import {onMounted, ref} from 'vue'
 import {reqHospital} from "@/api/home";
+import type {Content, HospitalResponseData} from "@/api/home/type.ts";
 let curPage = ref<number>(1)
 let pageSize = ref<number>(10)
-let hospitalArr = ref([])
-let total = ref(0)
+let hospitalArr = ref<Content>([])
+let total = ref<number>(0)
 onMounted(() => {
   getHospitalInfo()
 })
 
 // 获取已有的医院数据
 const getHospitalInfo = async () => {
-  let res: any = await reqHospital(curPage.value, pageSize.value);
+  let res: HospitalResponseData = await reqHospital(curPage.value, pageSize.value);
   console.log(JSON.stringify("已有医院数据:" + JSON.stringify(res)));
   if (res.code === 200) {
     hospitalArr.value = res.data.content;

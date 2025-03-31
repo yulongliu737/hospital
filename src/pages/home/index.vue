@@ -18,7 +18,6 @@ onMounted(() => {
 // 获取已有的医院数据
 const getHospitalInfo = async () => {
   let res: HospitalResponseData = await reqHospital(curPage.value, pageSize.value);
-  console.log(JSON.stringify("已有医院数据:" + JSON.stringify(res)));
   if (res.code === 200) {
     hospitalArr.value = res.data.content;
     total.value = res.data.totalElements;

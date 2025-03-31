@@ -1,5 +1,21 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
+import type {HospitalLevelAndRegionArr, HospitalLevelAndRegionResponseData} from "@/api/home/type.ts";
+import { reqHospitalLevelAndRegion} from "@/api/home";
 
+onMounted(() => {
+  getHospitalLevel()
+})
+
+let levelArr = ref<HospitalLevelAndRegionArr>([])
+
+// 获取已有的医院数据
+const getHospitalLevel = async () => {
+  let res: HospitalLevelAndRegionResponseData = await reqHospitalLevelAndRegion('HosType');
+  if (res.code === 200) {
+    levelArr.value = res.data
+  }
+}
 </script>
 
 <template>
@@ -11,11 +27,7 @@
       </div>
       <ul class="hospital">
         <li class="active">全部</li>
-        <li>三级甲等</li>
-        <li>三级甲等</li>
-        <li>三级甲等</li>
-        <li>三级甲等</li>
-        <li>三级甲等</li>
+        <li v-for="item in levelArr" :key = "item.id">{{ item.name }}</li>
       </ul>
     </div>
   </div>

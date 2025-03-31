@@ -1,5 +1,26 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
+import type {HospitalLevelAndRegionArr, HospitalLevelAndRegionResponseData} from "@/api/home/type.ts";
+import {reqHospitalLevelAndRegion} from "@/api/home";
 
+onMounted(() => {
+  getHospitalRegion()
+})
+
+let regionArr = ref<HospitalLevelAndRegionArr>([])
+
+// 获取已有的医院数据
+const getHospitalRegion = async () => {
+  let res: HospitalLevelAndRegionResponseData = await reqHospitalLevelAndRegion('Beijin');
+  if (res.code === 200) {
+    regionArr.value = res.data
+  }
+}
+let activeFlag = ref<string>('')
+
+const changeRegion = (val: string) => {
+  activeFlag.value = val
+}
 </script>
 
 <template>
@@ -7,13 +28,8 @@
     <div class="content">
       <div class="left">地区：</div>
       <ul>
-        <li class="active">全部</li>
-        <li>昌平区</li>
-        <li>昌平区</li>
-        <li>昌平区</li>
-        <li>昌平区</li>
-        <li>昌平区</li>
-        <li>昌平区</li>
+        <li :class="{active:activeFlag === ''}" @click="changeRegion('')">全部</li>
+        <li :class="{active:activeFlag === region.value}" v-for="region in regionArr" :key = "region.id" @click="changeRegion(region.value)">{{region.name}}</li>
       </ul>
     </div>
   </div>

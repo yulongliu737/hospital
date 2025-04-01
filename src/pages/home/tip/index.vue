@@ -140,6 +140,9 @@
       display: flex;
       flex-wrap: wrap;
       li {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         display: flex;
         align-items: center;
         margin-top: 10px;

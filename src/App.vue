@@ -13,6 +13,7 @@
       <div class="bottom-section">
         <HospitalBottom></HospitalBottom>
       </div>
+
     </div>
   </div>
 </template>

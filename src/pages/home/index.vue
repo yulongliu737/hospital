@@ -4,6 +4,7 @@ import Search from './search/index.vue'
 import Level from '@/pages/home/level/index.vue'
 import Region from '@/pages/home/region/index.vue'
 import Card from '@/pages/home/card/index.vue'
+import Tip from '@/pages/home/tip/index.vue'
 import {onMounted, ref} from 'vue'
 import {reqHospital} from "@/api/home";
 import type {Content, HospitalResponseData} from "@/api/home/type.ts";
@@ -73,7 +74,7 @@ async function getRegion(val: string) {
       <el-empty description="没有可以展示的医院" v-show="hospitalArr.length === 0"/>
     </el-col>
     <el-col :span="4">
-      456
+      <Tip></Tip>
     </el-col>
   </el-row>
 </template>

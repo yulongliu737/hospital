@@ -4,7 +4,7 @@
  defineProps(['hospitalInfo'])
  let $router = useRouter()
  const goDetail = () => {
-   $router.push({path:'/hospital'})
+   $router.push({path:'/hospital/register'})
  }
 </script>
 

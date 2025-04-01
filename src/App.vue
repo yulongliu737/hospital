@@ -26,6 +26,7 @@
 }
 
 .content-wrapper {
+  margin-top: 65px;
   flex: 1; /* 占据剩余空间 */
   position: relative;
   padding-bottom: 70px; /* 为底部区域预留空间 */

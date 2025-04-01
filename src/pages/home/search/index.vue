@@ -31,7 +31,7 @@
   let $router = useRouter()
   // 点击某个推荐项目触发
   const goDetail =  (item: any) => {
-    $router.push({path:'/hospital'})
+    $router.push({path:'/hospital/register'})
   }
 
 </script>

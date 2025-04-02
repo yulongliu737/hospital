@@ -56,7 +56,7 @@ let hospitalStore = useDetailStore();
         </div>
         <ul class = "ways">
           <li v-for="(item, index) in hospitalStore.hospitalInfo.bookingRule?.rule" :key = "index">
-            <span>{{item}}</span>
+            <span>{{index + 1}}.{{item}}</span>
           </li>
         </ul>
       </div>

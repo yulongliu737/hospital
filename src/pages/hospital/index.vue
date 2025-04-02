@@ -10,15 +10,15 @@ import {useRoute, useRouter} from "vue-router";
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
 import {onMounted} from "vue";
 let $router = useRouter()
-const changeActive = (active: string): void => {
-  $router.push({path:active})
+const changeActive = (path: string): void => {
+  $router.push({path, query: {hoscode: $route.query.hoscode}})
 }
 
 let $route = useRoute()
 
 let detailStore = useDetailStore()
 onMounted(() => {
-  detailStore.getHospital($route.query.hoscode)
+  detailStore.getHospital($route.query.hoscode as string)
 })
 </script>
 

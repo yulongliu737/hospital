@@ -7,12 +7,19 @@ import {
   Pointer
 } from '@element-plus/icons-vue'
 import {useRoute, useRouter} from "vue-router";
+import useDetailStore from "@/store/modules/hospitalDetail.ts";
+import {onMounted} from "vue";
 let $router = useRouter()
 const changeActive = (active: string): void => {
   $router.push({path:active})
 }
 
 let $route = useRoute()
+
+let detailStore = useDetailStore()
+onMounted(() => {
+  detailStore.getHospital($route.query.hoscode)
+})
 </script>
 
 <template>

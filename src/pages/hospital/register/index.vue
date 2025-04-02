@@ -7,6 +7,12 @@ let hospitalStore = useDetailStore();
 let currentIndex = ref<number>(0);
 const changeIndex = (index: number) => {
   currentIndex.value = index;
+  let allH1 = document.querySelectorAll('.cur')
+  // 点击时滚动到对应的h1位置
+  allH1[currentIndex.value].scrollIntoView({
+    behavior: "smooth", // 丝滑滚动
+    block:'start' // 滚动到哪个位置 start为置顶，即默认值
+  })
 }
 </script>
 
@@ -84,7 +90,7 @@ const changeIndex = (index: number) => {
              v-for="(deparment) in hospitalStore.departmentArr"
              :key = "deparment.depcode"
         >
-          <h1>{{ deparment.depname }}</h1>
+          <h1 class = "cur">{{ deparment.depname }}</h1>
           <ul>
             <li v-for = "child in deparment.children" :key = "child.depcode">
               {{child.depname}}
@@ -193,6 +199,10 @@ const changeIndex = (index: number) => {
       margin-left: 20px;
       height: 100%;
       overflow: auto;
+      // 隐藏滚动条
+      &::-webkit-scrollbar {
+        display: none;
+      }
       .showDepartmentInfo {
         h1 {
           background-color: rgb(191, 179, 179);

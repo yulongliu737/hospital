@@ -79,7 +79,19 @@ const changeIndex = (index: number) => {
           </li>
         </ul>
       </div>
-      <div class="departmentInfo">456</div>
+      <div class="departmentInfo">
+        <div class="showDepartmentInfo"
+             v-for="(deparment) in hospitalStore.departmentArr"
+             :key = "deparment.depcode"
+        >
+          <h1>{{ deparment.depname }}</h1>
+          <ul>
+            <li v-for = "child in deparment.children" :key = "child.depcode">
+              {{child.depname}}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -179,6 +191,24 @@ const changeIndex = (index: number) => {
     .departmentInfo {
       flex: 1;
       margin-left: 20px;
+      height: 100%;
+      overflow: auto;
+      .showDepartmentInfo {
+        h1 {
+          background-color: rgb(191, 179, 179);
+          color: #777777;
+          font-size: 17px;
+        }
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          li {
+            width: 33%;
+            color: #7f7f7f;
+            line-height: 30px;
+          }
+        }
+      }
     }
   }
 }

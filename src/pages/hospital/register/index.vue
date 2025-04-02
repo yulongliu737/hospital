@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
+import {ref} from "vue";
 
 let hospitalStore = useDetailStore();
-// let hospital = hospitalStore.hospitalInfo.hospital;
-// let bookingRule = hospitalStore.hospitalInfo.bookingRule;
-// let param = hospital?.param;
+// 控制科室高亮的数据
+let currentIndex = ref<number>(0);
+const changeIndex = (index: number) => {
+  currentIndex.value = index;
+}
 </script>
 
 <template>
@@ -60,6 +63,23 @@ let hospitalStore = useDetailStore();
           </li>
         </ul>
       </div>
+    </div>
+    <!-- 科室数据 -->
+    <div class="department">
+      <div class="leftNav">
+        <ul>
+          <li
+              v-for="(deparment, index) in hospitalStore.departmentArr"
+              :key = "deparment.depcode"
+              :class = "{active:index === currentIndex}"
+              @click = "changeIndex(index)"
+              style = "cursor: pointer;"
+          >
+            {{deparment.depname}}
+          </li>
+        </ul>
+      </div>
+      <div class="departmentInfo">456</div>
     </div>
   </div>
 </template>
@@ -126,6 +146,39 @@ let hospitalStore = useDetailStore();
           span {color: #7f7f7f;}
         }
       }
+    }
+  }
+  .department {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    margin-top: 20px;
+    .leftNav {
+      height: 100%;
+      width: 80px;
+      ul {
+        width: 100%;
+        height: 100%;
+        background: rgb(248, 248, 248);
+        display: flex;
+        flex-direction: column;
+        li {
+          flex: 1;
+          text-align: center;
+          color: #7f7f7f;
+          font-size: 14px;
+          line-height: 40px;
+          &.active {
+            border-left: 1px solid red;
+            color: red;
+            background: white;
+          }
+        }
+      }
+    }
+    .departmentInfo {
+      flex: 1;
+      margin-left: 20px;
     }
   }
 }

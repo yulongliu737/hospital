@@ -39,3 +39,16 @@ export interface HospitalDetail {
 export interface HospitalDetailResponseData extends ResponseData {
     data: HospitalDetail
 }
+
+export interface Department {
+    depcode: string,
+    depname: string,
+    children?: Department[]
+}
+
+// 科室数组
+export type DepartmentArr = Department[]
+
+export interface DepartmentResponseData extends ResponseData {
+    data: DepartmentArr
+}

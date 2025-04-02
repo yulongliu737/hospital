@@ -1,5 +1,6 @@
-import type {HospitalDetail} from '@/api/hospital/type'
+import type {DepartmentArr, HospitalDetail} from '@/api/hospital/type'
 
 export interface DetailState {
     hospitalInfo: HospitalDetail
+    departmentArr: DepartmentArr
 }

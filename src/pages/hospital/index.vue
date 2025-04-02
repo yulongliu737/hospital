@@ -19,6 +19,7 @@ let $route = useRoute()
 let detailStore = useDetailStore()
 onMounted(() => {
   detailStore.getHospital($route.query.hoscode as string)
+  detailStore.getDepartment($route.query.hoscode as string)
 })
 </script>
 

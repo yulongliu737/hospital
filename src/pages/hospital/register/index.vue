@@ -2,9 +2,9 @@
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
 
 let hospitalStore = useDetailStore();
-let hospital = hospitalStore.hospitalInfo.hospital;
-let bookingRule = hospitalStore.hospitalInfo.bookingRule;
-let param = hospital?.param;
+// let hospital = hospitalStore.hospitalInfo.hospital;
+// let bookingRule = hospitalStore.hospitalInfo.bookingRule;
+// let param = hospital?.param;
 </script>
 
 <template>
@@ -31,7 +31,7 @@ let param = hospital?.param;
     </div>
     <div class="content">
       <div class="left">
-        <img :src="`data:image/jpeg;base64,${hospital?.logoData}`" alt=""></img>
+        <img :src="`data:image/jpeg;base64,${hospitalStore.hospitalInfo.hospital?.logoData}`" alt=""></img>
       </div>
       <div class="right">
         <div class="rule">
@@ -39,23 +39,23 @@ let param = hospital?.param;
         </div>
         <ul class="registerRule">
           <li class="time">
-            <span>预约周期：{{ bookingRule?.cycle }}天 放号时间：{{ bookingRule?.releaseTime }} 停挂时间：{{ bookingRule?.quitTime }}</span>
+            <span>预约周期：{{ hospitalStore.hospitalInfo.bookingRule?.cycle }}天 放号时间：{{ hospitalStore.hospitalInfo.bookingRule?.releaseTime }} 停挂时间：{{ hospitalStore.hospitalInfo.bookingRule?.quitTime }}</span>
           </li>
           <li class="address">
-            <span>具体地址：{{ param?.fullAddress }}</span>
+            <span>具体地址：{{ hospitalStore.hospitalInfo.hospital?.param?.fullAddress }}</span>
           </li>
           <li class="route">
-            <span>规划路线：{{hospital?.route}}</span>
+            <span>规划路线：{{hospitalStore.hospitalInfo.hospital?.route}}</span>
           </li>
           <li class="backTime">
-            <span>退号时间：{{ bookingRule?.stopTime }}</span>
+            <span>退号时间：{{ hospitalStore.hospitalInfo.bookingRule?.stopTime }}</span>
           </li>
         </ul>
         <div class="appointmentRules">
           医院预约规则
         </div>
         <ul class = "ways">
-          <li v-for="(item, index) in bookingRule?.rule" :key = "index">
+          <li v-for="(item, index) in hospitalStore.hospitalInfo.bookingRule?.rule" :key = "index">
             <span>{{item}}</span>
           </li>
         </ul>

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import useUserStore from "@/store/modules/user.ts";
+import { ArrowDown } from '@element-plus/icons-vue'
 let $router = useRouter()
 const goHome = () => {
   $router.push({path:'/home'})
 }
 let userStore = useUserStore();
 const showLoginDialog = () => {
-  userStore.visiable = true;
+  userStore.visible = true;
 }
 </script>
 
@@ -20,7 +21,23 @@ const showLoginDialog = () => {
       </div>
       <div class="top-right">
         <p class="help">帮助中心</p>
-        <p class="login" @click="showLoginDialog" style="cursor:pointer">登录/注册</p>
+        <p class="login" @click="showLoginDialog" style="cursor:pointer" v-show="!userStore.loginResult?.name">登录/注册</p>
+        <el-dropdown v-show="userStore.loginResult?.name">
+          <span class="el-dropdown-link">
+            {{userStore.loginResult?.name}}
+            <el-icon class="el-icon--right">
+              <arrow-down />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>实名认证</el-dropdown-item>
+              <el-dropdown-item>挂号订单</el-dropdown-item>
+              <el-dropdown-item>就诊人管理</el-dropdown-item>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@ const changeIndex = (index: number) => {
 
 let userStore = useUserStore();
 const showLoginDialog = () => {
-  userStore.visiable = true;
+  userStore.visible = true;
 }
 </script>
 

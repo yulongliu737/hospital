@@ -55,7 +55,7 @@ export interface DepartmentResponseData extends ResponseData {
 
 // 用户登录接口需要携带的参数类型
 export interface LoginData {
-    phoneNumber: string,
+    phone: string,
     code: string,
 }
 

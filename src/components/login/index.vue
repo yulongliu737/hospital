@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import useUserStore from "@/store/modules/user.ts";
 import {User, Lock} from '@element-plus/icons-vue'
-import {ref} from "vue";
+import {computed, reactive, ref} from "vue";
+import {reqUserCode} from "@/api/home";
 let userStore = useUserStore();
 defineOptions({
   name: "Login"
@@ -9,6 +10,21 @@ defineOptions({
 let scene = ref<boolean>(true);
 const changeLoginWay = () => {
   scene.value = !scene.value;
+}
+let loginParmas = reactive({
+  phoneNumber:''
+})
+let isPhone = computed(() => {
+  const regex = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}$/;
+  return regex.test(loginParmas.phoneNumber);
+})
+
+let crCode = ref<string>()
+let getCode = async () => {
+  let res = await reqUserCode(loginParmas.phoneNumber);
+  if (res.code === 200) {
+    crCode.value = res.data;
+  }
 }
 </script>
 
@@ -23,13 +39,13 @@ const changeLoginWay = () => {
           <div class="login" v-show="scene">
             <el-form>
               <el-form-item>
-                <el-input placeholder="请输入手机号码" :prefix-icon="User"></el-input>
+                <el-input placeholder="请输入手机号码" :prefix-icon="User" v-model="loginParmas.phoneNumber"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-input placeholder="请输入手机验证码" :prefix-icon="Lock"></el-input>
+                <el-input placeholder="请输入手机验证码" :prefix-icon="Lock" v-model="crCode"></el-input>
               </el-form-item>
             </el-form>
-            <el-button>获取验证码</el-button>
+            <el-button :disabled="!isPhone" @click="getCode">获取验证码</el-button>
             <div class="bottom">
               <el-button style="width: 90%;margin-top: 10px" type="primary">用户登录</el-button>
               <p @click="changeLoginWay()" style="cursor: pointer">微信扫码登录</p>

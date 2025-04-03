@@ -4,3 +4,7 @@ export interface DetailState {
     hospitalInfo: HospitalDetail
     departmentArr: DepartmentArr
 }
+
+export interface LoginDialogShowState {
+    visiable: boolean
+}

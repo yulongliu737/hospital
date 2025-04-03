@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
 import {ref} from "vue";
+import useUserStore from "@/store/modules/user.ts";
 
 let hospitalStore = useDetailStore();
 // 控制科室高亮的数据
@@ -13,6 +14,11 @@ const changeIndex = (index: number) => {
     behavior: "smooth", // 丝滑滚动
     block:'start' // 滚动到哪个位置 start为置顶，即默认值
   })
+}
+
+let userStore = useUserStore();
+const showLoginDialog = () => {
+  userStore.visiable = true;
 }
 </script>
 
@@ -92,7 +98,7 @@ const changeIndex = (index: number) => {
         >
           <h1 class = "cur">{{ deparment.depname }}</h1>
           <ul>
-            <li v-for = "child in deparment.children" :key = "child.depcode">
+            <li @click="showLoginDialog" v-for = "child in deparment.children" :key = "child.depcode" style="cursor: pointer;">
               {{child.depname}}
             </li>
           </ul>

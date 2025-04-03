@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
+import useUserStore from "@/store/modules/user.ts";
 let $router = useRouter()
 const goHome = () => {
   $router.push({path:'/home'})
+}
+let userStore = useUserStore();
+const showLoginDialog = () => {
+  userStore.visiable = true;
 }
 </script>
 
@@ -15,7 +20,7 @@ const goHome = () => {
       </div>
       <div class="top-right">
         <p class="help">帮助中心</p>
-        <p class="login">登录/注册</p>
+        <p class="login" @click="showLoginDialog" style="cursor:pointer">登录/注册</p>
       </div>
     </div>
   </div>

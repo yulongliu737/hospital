@@ -17,9 +17,9 @@ let loginParams = reactive({
   phone: '',
   code: ''
 })
+const regex = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}$/;
 // 是否合法手机号
 let isPhone = computed(() => {
-  const regex = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}$/;
   return regex.test(loginParams.phone);
 })
 
@@ -55,7 +55,9 @@ watch(
     }
 )
 let userStore = useUserStore();
+let checkForm = ref<any>()
 const login = async () => {
+  await checkForm.value.validate();
   try {
     await userStore.userLogin(loginParams);
     userStore.visible = false;
@@ -70,6 +72,48 @@ const login = async () => {
     })
   }
 }
+
+const rule = {
+  // 简单校验
+  // phone: [{
+  //   required: true,
+  //   message: '手机号为11位',
+  //   trigger: "change",
+  //   min:11
+  // }],
+  // code: [{
+  //   required: true,
+  //   message: '验证码为6位',
+  //   trigger: "blur",
+  //   min:6
+  // }]
+  // 自定义规则
+  phone: [
+    {
+      trigger: "change",
+      validator(_: any, value: any, callback: any) {
+        if (regex.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入正确格式的手机号"));
+        }
+      }
+    }
+  ],
+  code: [
+    {
+      trigger: "blur",
+      validator(_: any, value: any, callback: any) {
+        const codeReg = /^\d{6}$/;
+        if (codeReg.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入正确的验证码"));
+        }
+      }
+    }
+  ]
+}
 </script>
 
 <template>
@@ -81,11 +125,11 @@ const login = async () => {
             <p @click="changeLoginWay()" style="cursor: pointer">微信扫码登录</p>
           </div>
           <div class="login" v-show="scene">
-            <el-form>
-              <el-form-item>
+            <el-form :model="loginParams" :rules="rule" ref="checkForm">
+              <el-form-item prop="phone">
                 <el-input placeholder="请输入手机号码" :prefix-icon="User" v-model="loginParams.phone"></el-input>
               </el-form-item>
-              <el-form-item>
+              <el-form-item prop="code">
                 <el-input placeholder="请输入手机验证码" :prefix-icon="Lock" v-model="loginParams.code"></el-input>
               </el-form-item>
             </el-form>

@@ -10,6 +10,10 @@ let userStore = useUserStore();
 const showLoginDialog = () => {
   userStore.visible = true;
 }
+const logOut = () => {
+  localStorage.removeItem("USER_INFO");
+  window.location.reload();
+}
 </script>
 
 <template>
@@ -34,7 +38,7 @@ const showLoginDialog = () => {
               <el-dropdown-item>实名认证</el-dropdown-item>
               <el-dropdown-item>挂号订单</el-dropdown-item>
               <el-dropdown-item>就诊人管理</el-dropdown-item>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

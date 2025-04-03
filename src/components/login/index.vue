@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useUserStore from "@/store/modules/user.ts";
 import {User, Lock} from '@element-plus/icons-vue'
-import {computed, reactive, ref} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import {reqUserCode} from "@/api/home";
 import type {CrCode} from "@/api/home/type.ts";
 let userStore = useUserStore();
@@ -25,8 +25,30 @@ let getCode = async () => {
   let res: CrCode = await reqUserCode(loginParmas.phoneNumber);
   if (res.code === 200) {
     crCode.value = res.data;
+    showGetCrCode.value = false;
   }
 }
+let showGetCrCode = ref<boolean>(true)
+let remainTime = ref<number>(5)
+
+watch(
+    showGetCrCode,
+    (newValue) => {
+      if (!newValue) {
+        remainTime.value = 5;
+        let timer = setInterval(() => {
+          remainTime.value --;
+          if (remainTime.value <= 0) {
+            showGetCrCode.value = true;
+            clearInterval(timer)
+          }
+        }, 1000)
+      }
+    },
+    {
+      immediate: true, // 立即执行一次
+    }
+)
 </script>
 
 <template>
@@ -46,7 +68,10 @@ let getCode = async () => {
                 <el-input placeholder="请输入手机验证码" :prefix-icon="Lock" v-model="crCode"></el-input>
               </el-form-item>
             </el-form>
-            <el-button :disabled="!isPhone" @click="getCode">获取验证码</el-button>
+            <el-button :disabled="!isPhone || !showGetCrCode" @click="getCode">
+              <span v-show="showGetCrCode">获取验证码</span>
+              <span v-show="!showGetCrCode">获取验证码({{remainTime}}s)</span>
+            </el-button>
             <div class="bottom">
               <el-button style="width: 90%;margin-top: 10px" type="primary">用户登录</el-button>
               <p @click="changeLoginWay()" style="cursor: pointer">微信扫码登录</p>

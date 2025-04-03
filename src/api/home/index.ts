@@ -1,6 +1,6 @@
 // 统一管理首页模块接口
 import request from '@/utils/request'
-import type {HospitalInfo, HospitalLevelAndRegionResponseData, HospitalResponseData} from "@/api/home/type.ts";
+import type {CrCode, HospitalInfo, HospitalLevelAndRegionResponseData, HospitalResponseData} from "@/api/home/type.ts";
 
 // 通过枚举管理首页模块的接口地址
 enum API {
@@ -21,4 +21,4 @@ export const reqHospitalLevelAndRegion = (dictCode: string) => request.get<any, 
 export const reqHospitalInfo = (hosname: string) => request.get<any, HospitalInfo>(API.HOSPITAL_INFO_URL + `${hosname}`)
 
 // 获取手机验证码
-export const reqUserCode = (phoneNumber: string) => request.get<any, any>(API.GET_USER_CODE_URL + phoneNumber)
+export const reqUserCode = (phoneNumber: string) => request.get<any, CrCode>(API.GET_USER_CODE_URL + phoneNumber)

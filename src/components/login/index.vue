@@ -3,6 +3,7 @@ import useUserStore from "@/store/modules/user.ts";
 import {User, Lock} from '@element-plus/icons-vue'
 import {computed, reactive, ref} from "vue";
 import {reqUserCode} from "@/api/home";
+import type {CrCode} from "@/api/home/type.ts";
 let userStore = useUserStore();
 defineOptions({
   name: "Login"
@@ -21,7 +22,7 @@ let isPhone = computed(() => {
 
 let crCode = ref<string>()
 let getCode = async () => {
-  let res = await reqUserCode(loginParmas.phoneNumber);
+  let res: CrCode = await reqUserCode(loginParmas.phoneNumber);
   if (res.code === 200) {
     crCode.value = res.data;
   }

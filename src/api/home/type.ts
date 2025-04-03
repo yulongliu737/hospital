@@ -90,3 +90,7 @@ export interface HospitalLevelAndRegionResponseData extends ResponseData {
 export interface HospitalInfo extends ResponseData {
     data: Content
 }
+
+export interface CrCode extends ResponseData {
+    data: string
+}

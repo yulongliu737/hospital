@@ -52,3 +52,19 @@ export type DepartmentArr = Department[]
 export interface DepartmentResponseData extends ResponseData {
     data: DepartmentArr
 }
+
+// 用户登录接口需要携带的参数类型
+export interface LoginData {
+    phoneNumber: string,
+    code: string,
+}
+
+// 登录接口返回用户信息数据
+export interface UserInfo {
+    name: string,
+    token: string
+}
+
+export interface UserLoginResponseData extends ResponseData {
+    data: UserInfo
+}

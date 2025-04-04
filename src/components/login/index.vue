@@ -67,9 +67,9 @@ const login = async () => {
       message: "登录成功",
     })
   } catch (error) {
-    let msg = (error as ValidateError)?.code[0]?.message;
-    if (msg) {
+    if ((error as ValidateError).hasOwnProperty('code')) {
       // 可以做弹窗提示，但没必要做多余提示
+      // let msg = (error as ValidateError)?.code[0]?.message;
       // ElMessage({
       //   type: "error",
       //   message: msg,

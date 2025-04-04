@@ -5,6 +5,7 @@ import {computed, reactive, ref, watch} from "vue";
 import {reqUserCode} from "@/api/home";
 import type {CrCode} from "@/api/home/type.ts";
 import {ElMessage} from "element-plus";
+import type {ValidateError} from "@/store/modules/interface";
 
 defineOptions({
   name: "Login"
@@ -57,8 +58,8 @@ watch(
 let userStore = useUserStore();
 let checkForm = ref<any>()
 const login = async () => {
-  await checkForm.value.validate();
   try {
+    await checkForm.value.validate();
     await userStore.userLogin(loginParams);
     userStore.visible = false;
     ElMessage({
@@ -66,10 +67,19 @@ const login = async () => {
       message: "登录成功",
     })
   } catch (error) {
-    ElMessage({
-      type: "error",
-      message: (error as Error).message,
-    })
+    let msg = (error as ValidateError)?.code[0]?.message;
+    if (msg) {
+      // 可以做弹窗提示，但没必要做多余提示
+      // ElMessage({
+      //   type: "error",
+      //   message: msg,
+      // })
+    } else {
+      ElMessage({
+        type: "error",
+        message: (error as Error).message,
+      })
+    }
   }
 }
 

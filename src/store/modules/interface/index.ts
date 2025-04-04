@@ -9,3 +9,7 @@ export interface LoginDialogState {
     visible: boolean
     loginResult: UserInfo
 }
+
+export interface ValidateError {
+    code: Error[]
+}

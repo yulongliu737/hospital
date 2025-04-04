@@ -15,7 +15,7 @@ request.interceptors.response.use((response) => {
     // console.log('响应拦截器:' + JSON.stringify(response.data.data));
     return response.data;
 }, (error) => {
-    let status = error.response.status;
+    let status = error?.response?.status;
     switch (status) {
         case 404:
             ElMessage({

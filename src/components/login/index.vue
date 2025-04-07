@@ -124,11 +124,18 @@ const rule = {
     }
   ]
 }
+
+const clearData = () => {
+  Object.assign(loginParams, {phone:'', code:''});
+  // 清除表单校验
+  checkForm.value.resetFields();
+  userStore.visible = false;
+}
 </script>
 
 <template>
   <div class="login_container">
-    <el-dialog v-model="userStore.visible" title="用户登录">
+    <el-dialog v-model="userStore.visible" title="用户登录" @close="clearData">
       <el-row>
         <el-col :span="12">
           <div class="weChatLogin" v-show="!scene">

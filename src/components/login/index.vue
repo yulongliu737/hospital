@@ -2,8 +2,8 @@
 import useUserStore from "@/store/modules/user.ts";
 import {User, Lock} from '@element-plus/icons-vue'
 import {computed, reactive, ref, watch} from "vue";
-import {reqUserCode} from "@/api/home";
-import type {CrCode} from "@/api/home/type.ts";
+import {reqUserCode, reqWxLogin} from "@/api/home";
+import type {CrCode, WXLoginResponseData} from "@/api/home/type.ts";
 import {ElMessage} from "element-plus";
 import type {ValidateError} from "@/store/modules/interface";
 
@@ -11,8 +11,23 @@ defineOptions({
   name: "Login"
 })
 let scene = ref<boolean>(true);
-const changeLoginWay = () => {
+const changeLoginWay = async () => {
   scene.value = !scene.value;
+
+  let redirect_URL = encodeURIComponent(window.location.origin + '/wxlogin');
+  let qrCodeResouce : WXLoginResponseData = await reqWxLogin(redirect_URL);
+  console.log(qrCodeResouce);
+  // @ts-ignore
+  new WxLogin({
+    self_redirect: true,
+    id: "login_container",
+    appid: qrCodeResouce.data.appid,
+    scope: "snsapi_login",
+    redirect_uri: qrCodeResouce.data.redirectUri,
+    state: qrCodeResouce.data.state,
+    style: "black",
+    href: ""
+  });
 }
 let loginParams = reactive({
   phone: '',
@@ -139,7 +154,9 @@ const clearData = () => {
       <el-row>
         <el-col :span="12">
           <div class="weChatLogin" v-show="!scene">
-            <p @click="changeLoginWay()" style="cursor: pointer">微信扫码登录</p>
+            <div @click="changeLoginWay()" style="cursor: pointer">
+              <div id="login_container"></div>
+            </div>
           </div>
           <div class="login" v-show="scene">
             <el-form :model="loginParams" :rules="rule" ref="checkForm">

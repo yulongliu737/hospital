@@ -94,3 +94,15 @@ export interface HospitalInfo extends ResponseData {
 export interface CrCode extends ResponseData {
     data: string
 }
+
+// 微信扫码登录ts类型
+export interface WXLogin {
+    redirectUri: string,
+    appid: string,
+    scope: string,
+    state: string
+}
+
+export interface WXLoginResponseData extends ResponseData {
+    data: WXLogin
+}

@@ -1,6 +1,11 @@
 // 统一管理首页模块接口
 import request from '@/utils/request'
-import type {CrCode, HospitalInfo, HospitalLevelAndRegionResponseData, HospitalResponseData} from "@/api/home/type.ts";
+import type {
+    CrCode,
+    HospitalInfo,
+    HospitalLevelAndRegionResponseData,
+    HospitalResponseData, WXLoginResponseData
+} from "@/api/home/type.ts";
 
 // 通过枚举管理首页模块的接口地址
 enum API {
@@ -10,7 +15,9 @@ enum API {
     HOSPITAL_LEVEL_AND_REGION_URL = '/cmn/dict/findByDictCode/',
     HOSPITAL_INFO_URL = '/hosp/hospital/findByHosname/',
     // 获取验证码
-    GET_USER_CODE_URL = '/sms/send/'
+    GET_USER_CODE_URL = '/sms/send/',
+    // 获取微信扫码登录需要的参数
+    WXLOGIN_URl = '/user/weixin/getLoginParam'
 }
 
 export const reqHospital = (page: number, limit: number, hosType = '', districtCode = '') => request.get<any, HospitalResponseData>(API.HOSPITAL_URL + `${page}/${limit}?hostype=${hosType}&districtCode=${districtCode}`,)
@@ -22,3 +29,6 @@ export const reqHospitalInfo = (hosname: string) => request.get<any, HospitalInf
 
 // 获取手机验证码
 export const reqUserCode = (phoneNumber: string) => request.get<any, CrCode>(API.GET_USER_CODE_URL + phoneNumber)
+
+// 获取微信扫码登录生成二维码需要参数接口
+export const reqWxLogin =  (wxRedirectUri: string) => request.get<any, WXLoginResponseData>(API.WXLOGIN_URl + `?wxRedirectUri=${wxRedirectUri}`)

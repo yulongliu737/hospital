@@ -45,10 +45,11 @@ const changePage = () => {
               item.availableNumber === -1 ? "预约已满" : `剩余(${item.availableNumber})`
             }}
           </div>
+          <div v-if="item.status === 1">即将放号</div>
         </div>
       </div>
     </div>
-    <el-pagination v-model:current-page="curPage" layout="prev, pager, next" :total="workData.total" @current-change="changePage()"/>
+    <el-pagination v-model:current-page="curPage" v-model:page-size="pageSize" layout="prev, pager, next" :total="workData.total" @current-change="changePage()"/>
   </div>
 </div>
 </template>

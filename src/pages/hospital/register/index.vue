@@ -2,6 +2,7 @@
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
 import {ref} from "vue";
 import useUserStore from "@/store/modules/user.ts";
+import {useRoute, useRouter} from "vue-router";
 
 let hospitalStore = useDetailStore();
 // 控制科室高亮的数据
@@ -16,9 +17,14 @@ const changeIndex = (index: number) => {
   })
 }
 
+let $route = useRoute();
+let $router = useRouter();
 let userStore = useUserStore();
-const showLoginDialog = () => {
-  userStore.visible = true;
+const showLoginDialog = (depcode: string) => {
+  if (!localStorage.getItem("USER_INFO")) {
+    userStore.visible = true;
+  }
+  $router.push({path: '/hospital/register_step1', query: {hoscode: $route.query.hoscode, depcode}});
 }
 </script>
 
@@ -98,7 +104,7 @@ const showLoginDialog = () => {
         >
           <h1 class = "cur">{{ deparment.depname }}</h1>
           <ul>
-            <li @click="showLoginDialog" v-for = "child in deparment.children" :key = "child.depcode" style="cursor: pointer;">
+            <li @click="showLoginDialog(child.depcode)" v-for = "child in deparment.children" :key = "child.depcode" style="cursor: pointer;">
               {{child.depname}}
             </li>
           </ul>

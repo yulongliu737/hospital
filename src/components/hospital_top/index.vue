@@ -12,7 +12,8 @@ const showLoginDialog = () => {
 }
 const logOut = () => {
   localStorage.removeItem("USER_INFO");
-  window.location.reload();
+  Object.assign(userStore.loginResult, {name: '', token: ''})
+  goHome()
 }
 </script>
 

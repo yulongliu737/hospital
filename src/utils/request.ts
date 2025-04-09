@@ -1,6 +1,7 @@
 // 对axios二次封装
 import axios from 'axios'
 import {ElMessage} from "element-plus";
+import useUserStore from "@/store/modules/user.ts";
 
 const request = axios.create({
     baseURL: '/api',
@@ -8,6 +9,11 @@ const request = axios.create({
 })
 
 request.interceptors.request.use((config) => {
+    let userStore = useUserStore();
+    if (userStore.loginResult.token) {
+        // 登录成功 请求头中设置token
+        config.headers.token = userStore.loginResult.token;
+    }
     return config;
 })
 

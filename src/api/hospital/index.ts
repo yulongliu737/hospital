@@ -2,7 +2,7 @@
 import request from '@/utils/request'
 import type {
     DepartmentResponseData,
-    HospitalDetailResponseData,
+    HospitalDetailResponseData, HospitalWorkData,
     LoginData,
     UserLoginResponseData
 } from "@/api/hospital/type.ts";
@@ -14,6 +14,8 @@ enum API {
     HOSPITAL_DEPARTMENT_URL = '/hosp/hospital/department/',
     // 用户登录
     USER_LOGIN_URL = '/user/login',
+    // 获取预约挂号
+    HOSPITAL_WORK_URL = '/hosp/hospital/auth/getBookingScheduleRule/'
 }
 
 export const reqHospitalDetail = (hoscode: string) => request.get<any, HospitalDetailResponseData>(API.HOSPITALDETAIL_URL + hoscode)
@@ -22,3 +24,4 @@ export const reqHospitalDepartment = (hoscode: string) => request.get<any, Depar
 
 export const reqUserLogin = (data: LoginData) => request.post<any, UserLoginResponseData>(API.USER_LOGIN_URL, data)
 
+export const reqAppointmentRegistration = (page: number, limit: number, hoscode: string, depcode: string) => request.get<any, HospitalWorkData>(API.HOSPITAL_WORK_URL + `${page}/${limit}/${hoscode}/${depcode}`)

@@ -23,6 +23,7 @@ let userStore = useUserStore();
 const showLoginDialog = (depcode: string) => {
   if (!localStorage.getItem("USER_INFO")) {
     userStore.visible = true;
+    return;
   }
   $router.push({path: '/hospital/register_step1', query: {hoscode: $route.query.hoscode, depcode}});
 }

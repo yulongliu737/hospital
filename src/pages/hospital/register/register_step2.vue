@@ -37,11 +37,16 @@ import Visitor from "@/pages/hospital/register/visitor.vue";
       <el-descriptions-item label="医事服务费：："><span style="color:red">100</span></el-descriptions-item>
     </el-descriptions>
   </el-card>
+  <div class="btn"><el-button type="primary" >确认挂号</el-button></div>
 </div>
 </template>
 
 <style scoped lang="scss">
 .container {
+  .btn {
+    display:flex;
+    justify-content: center;
+  }
   .tip {
     font-weight: 900;
     color: #7f7f7f;

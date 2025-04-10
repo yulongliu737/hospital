@@ -166,3 +166,7 @@ export type UserArr = User[];
 export interface UserResponseData extends ResponseData {
     data: UserArr
 }
+
+export interface DoctorDetailResponseData extends ResponseData {
+    data: Doctor
+}

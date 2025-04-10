@@ -2,19 +2,39 @@
 import {User} from '@element-plus/icons-vue'
 import Visitor from "@/pages/hospital/register/visitor.vue";
 import {onMounted, ref} from "vue";
-import {reqPatient} from "@/api/hospital";
-import type {UserArr} from "@/api/hospital/type.ts";
+import {reqDocDetail, reqPatient} from "@/api/hospital";
+import type {Doctor, UserArr} from "@/api/hospital/type.ts";
+import {useRoute} from "vue-router";
 onMounted(() => {
   fetchUserData()
 })
 
+let $route = useRoute();
 let patients = ref<UserArr>([])
+let doctorDetail = ref<any>()
 
 // 获取就诊人信息
 const fetchUserData = async () => {
   let userResult = await reqPatient();
   if (userResult.code === 200) {
     patients.value = userResult.data;
+  }
+  let docDetail = await reqDocDetail($route.query.docId as string)
+  if (docDetail.code === 200) {
+    doctorDetail.value = docDetail.data;
+  } else {
+    // 添加打桩数据
+    doctorDetail.value = {
+      "workDate":"2025-04-10",
+      "param": {
+        "hosname": "北京人民医院",
+        "depname": "多发性硬化专科门诊"
+      },
+      "docname": "邵逸夫",
+      "title": "副主任医师",
+      "skill": "内分泌代谢性疾病",
+      "amount": 100
+    }
   }
 }
 </script>
@@ -44,13 +64,13 @@ const fetchUserData = async () => {
         :column="2"
         border
     >
-      <el-descriptions-item label="就诊日期：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="就诊医院：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="就诊科室：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="医生姓名：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="医生职称：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="医生专长：">{{}}</el-descriptions-item>
-      <el-descriptions-item label="医事服务费：："><span style="color:red">100</span></el-descriptions-item>
+      <el-descriptions-item label="就诊日期：">{{doctorDetail?.workDate}}</el-descriptions-item>
+      <el-descriptions-item label="就诊医院：">{{doctorDetail?.param?.hosname}}</el-descriptions-item>
+      <el-descriptions-item label="就诊科室：">{{doctorDetail?.param?.depname}}</el-descriptions-item>
+      <el-descriptions-item label="医生姓名：">{{doctorDetail?.docname}}</el-descriptions-item>
+      <el-descriptions-item label="医生职称：">{{doctorDetail?.title}}</el-descriptions-item>
+      <el-descriptions-item label="医生专长：">{{doctorDetail?.skill}}</el-descriptions-item>
+      <el-descriptions-item label="医事服务费：："><span style="color:red">{{doctorDetail?.amount}}</span></el-descriptions-item>
     </el-descriptions>
   </el-card>
   <div class="btn"><el-button type="primary" >确认挂号</el-button></div>

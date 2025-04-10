@@ -1,7 +1,7 @@
 // 医院详情
 import request from '@/utils/request'
 import type {
-    DepartmentResponseData, DoctorResponseData,
+    DepartmentResponseData, DoctorDetailResponseData, DoctorResponseData,
     HospitalDetailResponseData, HospitalWorkData,
     LoginData,
     UserLoginResponseData, UserResponseData
@@ -19,7 +19,9 @@ enum API {
     // 获取某一个科室某一天相应医生排版的数据
     DOCTOR_URL = '/hosp/hospital/auth/findScheduleList/',
     // 获取某个账号下的就诊人信息
-    GET_USER_URL = '/user/patient/auth/findAll'
+    GET_USER_URL = '/user/patient/auth/findAll',
+    // 获取医生详细信息
+    GET_DOCTOR_DETAIL = '/hosp/hospital/getSchedule/',
 }
 
 export const reqHospitalDetail = (hoscode: string) => request.get<any, HospitalDetailResponseData>(API.HOSPITALDETAIL_URL + hoscode)
@@ -32,5 +34,7 @@ export const reqAppointmentRegistration = (page: number, limit: number, hoscode:
 
 // 获取医生排班数据
 export const reqDocInfo = ( hoscode: string, depcode: string, workDate: string) => request.get<any, DoctorResponseData>(API.DOCTOR_URL + `${hoscode}/${depcode}/${workDate}`)
+
+export const reqDocDetail = ( scheduleId: string) => request.get<any, DoctorDetailResponseData>(API.GET_DOCTOR_DETAIL + `${scheduleId}`)
 
 export const reqPatient = () => request.get<any, UserResponseData>(API.GET_USER_URL)

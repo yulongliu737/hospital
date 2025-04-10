@@ -97,3 +97,31 @@ export interface HospitalWorkData extends ResponseData {
         baseMap: BaseMap
     }
 }
+
+export interface Doctor {
+    id: string,
+    createTime: string,
+    updateTime: string,
+    isDeleted: string,
+    param: {
+        dayOfWeek: string,
+        depname: string,
+        hosname: string,
+    },
+    hoscode: string,
+    depcode: string,
+    title: string,
+    docname: string,
+    skill: string,
+    workDate: string,
+    workTime: number,
+    reservedNumber: number,
+    availableNumber: number,
+    status: number,
+    hosScheduleId: string,
+    amount: number
+}
+
+export interface DoctorResponseData extends ResponseData {
+    data: Doctor[]
+}

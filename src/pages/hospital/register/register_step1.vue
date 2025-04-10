@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
 import {reqAppointmentRegistration, reqDocInfo} from "@/api/hospital"
-import {useRoute} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 import type {Doctor, DoctorResponseData, HospitalWorkData} from "@/api/hospital/type.ts"
 let curPage = ref<number>(1)
 let pageSize = ref<number>(6)
@@ -9,6 +9,7 @@ let workData = ref<any>({})
 let workTime = ref<any>({})
 let docArr = ref<Doctor[]>([])
 let $route = useRoute();
+let $router = useRouter();
 onMounted(() => {
   fetchWorkData()
 })
@@ -55,7 +56,7 @@ let moringArr = computed(() => {
 let afterArr = computed(() => {
   // 添加打桩数据
   docArr.value.push({
-    id: "1232432434",
+    id: "6225753136a9ba1be763dc0e",
     createTime: "2025-03-25",
     updateTime: "2025-03-25",
     isDeleted: "N",
@@ -81,6 +82,10 @@ let afterArr = computed(() => {
     return doc.workTime === 0;
   })
 })
+
+const goStep2 = (doctor: Doctor) => {
+    $router.push({path: '/hospital/register_step2', query: {docId: doctor.id}})
+}
 </script>
 
 <template>
@@ -140,7 +145,7 @@ let afterArr = computed(() => {
             <div class="money">
               ￥{{doctor.amount}}
             </div>
-            <el-button type="primary" size="default">剩余 {{doctor.availableNumber}}</el-button>
+            <el-button type="primary" size="default" @click="goStep2(doctor)">剩余 {{doctor.availableNumber}}</el-button>
           </div>
         </div>
       </div>
@@ -162,7 +167,7 @@ let afterArr = computed(() => {
             <div class="money">
               ￥{{doctor.amount}}
             </div>
-            <el-button type="primary" size="default">剩余 {{doctor.availableNumber}}</el-button>
+            <el-button type="primary" size="default" @click="goStep2(doctor)">剩余 {{doctor.availableNumber}}</el-button>
           </div>
         </div>
       </div>

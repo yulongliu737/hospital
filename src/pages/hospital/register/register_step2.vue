@@ -17,6 +17,26 @@ import Visitor from "@/pages/hospital/register/visitor.vue";
       <Visitor v-for="item in 4" :key="item" class="item"></Visitor>
     </div>
   </el-card>
+  <el-card class="box-card">
+    <template #header>
+      <div class="registered-letter">
+        <span>挂号信息</span>
+      </div>
+    </template>
+    <el-descriptions
+        direction="horizontal"
+        :column="2"
+        border
+    >
+      <el-descriptions-item label="就诊日期：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="就诊医院：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="就诊科室：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="医生姓名：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="医生职称：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="医生专长：">{{}}</el-descriptions-item>
+      <el-descriptions-item label="医事服务费：："><span style="color:red">100</span></el-descriptions-item>
+    </el-descriptions>
+  </el-card>
 </div>
 </template>
 

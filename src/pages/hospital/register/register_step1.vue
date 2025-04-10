@@ -53,6 +53,30 @@ let moringArr = computed(() => {
 
 // 计算出下午排班的医生数据
 let afterArr = computed(() => {
+  // 添加打桩数据
+  docArr.value.push({
+    id: "1232432434",
+    createTime: "2025-03-25",
+    updateTime: "2025-03-25",
+    isDeleted: "N",
+    param: {
+      dayOfWeek: "2025-03-25",
+      depname: "妇产科",
+      hosname: "专科门诊主任医师",
+    },
+    hoscode: "1000_0",
+    depcode: "200040878",
+    title: "骨科副主任医师",
+    docname: "邵逸夫",
+    skill: "内分泌与代谢性疾病",
+    workDate: "2025-03-25",
+    workTime: 0,
+    reservedNumber: 200,
+    availableNumber: 21,
+    status: 0,
+    hosScheduleId: "23432432",
+    amount: 312
+  })
   return docArr.value.filter((doc: Doctor) => {
     return doc.workTime === 0;
   })
@@ -116,7 +140,7 @@ let afterArr = computed(() => {
             <div class="money">
               ￥{{doctor.amount}}
             </div>
-            <el-button type="primary" size="default">{{doctor.availableNumber}}</el-button>
+            <el-button type="primary" size="default">剩余 {{doctor.availableNumber}}</el-button>
           </div>
         </div>
       </div>
@@ -138,7 +162,7 @@ let afterArr = computed(() => {
             <div class="money">
               ￥{{doctor.amount}}
             </div>
-            <el-button type="primary" size="default">{{doctor.availableNumber}}</el-button>
+            <el-button type="primary" size="default">剩余 {{doctor.availableNumber}}</el-button>
           </div>
         </div>
       </div>
@@ -259,9 +283,11 @@ let afterArr = computed(() => {
             justify-content: space-between;
             align-items: center;
             .money {
+              margin-right: 10px;
               color: #7f7f7f;
               font-weight: 900;
             }
+            margin-right: 20px;
           }
         }
       }

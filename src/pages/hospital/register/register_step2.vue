@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import {User} from '@element-plus/icons-vue'
 import Visitor from "@/pages/hospital/register/visitor.vue";
+import {onMounted, ref} from "vue";
+import {reqPatient} from "@/api/hospital";
+import type {UserArr} from "@/api/hospital/type.ts";
+onMounted(() => {
+  fetchUserData()
+})
+
+let patients = ref<UserArr>([])
+
+// 获取就诊人信息
+const fetchUserData = async () => {
+  let userResult = await reqPatient();
+  if (userResult.code === 200) {
+    patients.value = userResult.data;
+  }
+}
 </script>
 
 <template>
@@ -14,7 +30,7 @@ import Visitor from "@/pages/hospital/register/visitor.vue";
       </div>
     </template>
     <div class="user">
-      <Visitor v-for="item in 4" :key="item" class="item"></Visitor>
+      <Visitor v-for="item in patients" :key="item.id" class="item" :patient="item"></Visitor>
     </div>
   </el-card>
   <el-card class="box-card">

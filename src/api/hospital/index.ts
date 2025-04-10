@@ -4,7 +4,7 @@ import type {
     DepartmentResponseData, DoctorResponseData,
     HospitalDetailResponseData, HospitalWorkData,
     LoginData,
-    UserLoginResponseData
+    UserLoginResponseData, UserResponseData
 } from "@/api/hospital/type.ts";
 
 // 通过枚举管理接口地址
@@ -18,6 +18,8 @@ enum API {
     HOSPITAL_WORK_URL = '/hosp/hospital/auth/getBookingScheduleRule/',
     // 获取某一个科室某一天相应医生排版的数据
     DOCTOR_URL = '/hosp/hospital/auth/findScheduleList/',
+    // 获取某个账号下的就诊人信息
+    GET_USER_URL = '/user/patient/auth/findAll'
 }
 
 export const reqHospitalDetail = (hoscode: string) => request.get<any, HospitalDetailResponseData>(API.HOSPITALDETAIL_URL + hoscode)
@@ -30,3 +32,5 @@ export const reqAppointmentRegistration = (page: number, limit: number, hoscode:
 
 // 获取医生排班数据
 export const reqDocInfo = ( hoscode: string, depcode: string, workDate: string) => request.get<any, DoctorResponseData>(API.DOCTOR_URL + `${hoscode}/${depcode}/${workDate}`)
+
+export const reqPatient = () => request.get<any, UserResponseData>(API.GET_USER_URL)

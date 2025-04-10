@@ -1,27 +1,28 @@
 <script setup lang="ts">
 import {Edit} from '@element-plus/icons-vue'
+defineProps(['patient'])
 </script>
 
 <template>
 <div class="container">
   <div class="top">
     <div class="left">
-      <div class="payMethod">医保</div>
-      <div class="username">鲁大师</div>
+      <div class="payMethod">{{patient.isInsure === 0 ? "医保": "自费"}}</div>
+      <div class="username">{{ patient.name }}</div>
     </div>
     <div class="right">
       <el-button type="primary" :icon="Edit" circle />
     </div>
   </div>
   <div class="bottom_msg">
-    <p>证件类型：{{  }}</p>
-    <p>证件号码：{{  }}</p>
-    <p>用户性别：{{  }}</p>
-    <p>出身日期：{{  }}</p>
-    <p>手机号码：{{  }}</p>
-    <p>婚姻状况：{{  }}</p>
-    <p>当前住址：{{  }}</p>
-    <p>详细地址：{{  }}</p>
+    <p>证件类型：{{ patient.param.certificatesTypeString }}</p>
+    <p>证件号码：{{ patient.certificatesNo }}</p>
+    <p>用户性别：{{ patient.sex === 1 ? "男" : "女" }}</p>
+    <p>出身日期：{{ patient.birthdate }}</p>
+    <p>手机号码：{{ patient.phone }}</p>
+    <p>婚姻状况：{{ patient.isMarry === 0 ? "未婚" : "已婚" }}</p>
+    <p>当前住址：{{ patient.address }}</p>
+    <p>详细地址：{{ patient.param.fullAddress }}</p>
   </div>
 </div>
 </template>

@@ -3,7 +3,7 @@ import {User} from '@element-plus/icons-vue'
 import Visitor from "@/pages/hospital/register/visitor.vue";
 import {onMounted, ref} from "vue";
 import {reqDocDetail, reqPatient} from "@/api/hospital";
-import type {Doctor, UserArr} from "@/api/hospital/type.ts";
+import type { UserArr} from "@/api/hospital/type.ts";
 import {useRoute} from "vue-router";
 onMounted(() => {
   fetchUserData()
@@ -18,6 +18,40 @@ const fetchUserData = async () => {
   let userResult = await reqPatient();
   if (userResult.code === 200) {
     patients.value = userResult.data;
+    // 添加打桩数据
+    patients.value.push({
+      id: "234343543",
+      createTime: "2023-06-02",
+      updateTime: "2025-08-03",
+      isDeleted: 1,
+      param: {
+        certificatesTypeString: "23423978432432432",
+        contactsCertificatesTypeString: "type",
+        cityString: "上海",
+        fullAddress: "虹桥703",
+        districtString: "",
+        provinceString: "",
+      },
+      userId:1213,
+      name: "打桩",
+      certificatesType: "",
+      certificatesNo: "2131324324324",
+      sex:0,
+      birthdate: "2025-09-02",
+      phone: "156234234",
+      isMarry:0,
+      provinceCode: "",
+      cityCode: "",
+      districtCode: "",
+      address: "大学路304",
+      contactsName: "",
+      contactsCertificatesType: "",
+      contactsCertificatesNo: "",
+      contactsPhone: "",
+      isInsure:0,
+      cardNo: "324324",
+      status:"0"
+    })
   }
   let docDetail = await reqDocDetail($route.query.docId as string)
   if (docDetail.code === 200) {

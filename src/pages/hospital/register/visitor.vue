@@ -23,6 +23,7 @@ defineProps(['patient'])
     <p>婚姻状况：{{ patient.isMarry === 0 ? "未婚" : "已婚" }}</p>
     <p>当前住址：{{ patient.address }}</p>
     <p>详细地址：{{ patient.param.fullAddress }}</p>
+    <div class="confirm">已选择</div>
   </div>
 </div>
 </template>
@@ -57,9 +58,33 @@ defineProps(['patient'])
     }
   }
   .bottom_msg {
+    position: relative;
     padding: 20px;
     p {
       height: 30px;
+    }
+    .confirm {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      color:red;
+      // 设置为圆形
+      border-radius: 50%;
+      // 设置边框
+      border: 1px dashed red;
+      text-align: center;
+      // 设置文字距离顶上高度
+      line-height: 200px;
+      // 圆圈距离左边右边距离
+      left:10%;
+      top:15%;
+      // 透明度
+      opacity: 0.6;
+      // 文字旋转
+      transform: rotate(35deg);
+      // 文字加粗
+      font-weight: 350;
+      font-size: 30px;
     }
   }
 }

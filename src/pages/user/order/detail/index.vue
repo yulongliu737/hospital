@@ -1,5 +1,19 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
+import type {OrderInfo, OrderInfoResponse} from "@/api/user/type.ts";
+import {reqOrderInfo} from "@/api/user";
 
+let $route = useRoute()
+onMounted(() => {
+  getOrderDetail()
+})
+
+let orderDetail = ref<OrderInfo>()
+const getOrderDetail = async() => {
+  let orderResult : OrderInfoResponse = await reqOrderInfo($route.query.orderId as string)
+  orderDetail.value = orderResult.data
+}
 </script>
 
 <template>
@@ -29,14 +43,14 @@
               :column="1"
               border
           >
-            <el-descriptions-item label="就诊人信息">{{1232222222222222}}</el-descriptions-item>
-            <el-descriptions-item label="就诊日期">{{123}}</el-descriptions-item>
-            <el-descriptions-item label="就诊医院">{{123}}</el-descriptions-item>
-            <el-descriptions-item label="就诊科室">{{123}}</el-descriptions-item>
-            <el-descriptions-item label="医生职称">{{123}}</el-descriptions-item>
-            <el-descriptions-item label="医事服务费"><span style="color:red">{{123}}元</span></el-descriptions-item>
-            <el-descriptions-item label="挂号单号">{{123}}</el-descriptions-item>
-            <el-descriptions-item label="挂号时间">{{123}}</el-descriptions-item>
+            <el-descriptions-item label="就诊人信息">{{orderDetail?.patientName}}</el-descriptions-item>
+            <el-descriptions-item label="就诊日期">{{orderDetail?.reserveDate}}</el-descriptions-item>
+            <el-descriptions-item label="就诊医院">{{orderDetail?.hosname}}</el-descriptions-item>
+            <el-descriptions-item label="就诊科室">{{orderDetail?.depname}}</el-descriptions-item>
+            <el-descriptions-item label="医生职称">{{orderDetail?.title}}</el-descriptions-item>
+            <el-descriptions-item label="医事服务费"><span style="color:red">{{orderDetail?.amount}} 元</span></el-descriptions-item>
+            <el-descriptions-item label="挂号单号">{{orderDetail?.outTradeNo}}</el-descriptions-item>
+            <el-descriptions-item label="挂号时间">{{orderDetail?.createTime}}</el-descriptions-item>
           </el-descriptions>
         </div>
         <div class="right">

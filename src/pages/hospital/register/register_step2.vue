@@ -101,6 +101,8 @@ const submitOrder = async() => {
   } else {
     // 接口调用异常使用打桩数据
     orderId.value = Math.floor(Math.random() * 1000) + 1
+    // 打桩数据
+    orderId.value = 431
     $router.push({path: '/user/order', query: {orderId: orderId.value}})
   }
 }

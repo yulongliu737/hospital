@@ -9,6 +9,32 @@ export default createRouter({
             component: () => import('@/pages/home/index.vue')
         },
         {
+            path: '/user',
+            component: () => import('@/pages/user/index.vue'),
+            children: [
+                {
+                    path:'verification',
+                    component: () => import('@/pages/user/verification/index.vue'),
+                },
+                {
+                    path:'account',
+                    component: () => import('@/pages/user/account/index.vue'),
+                },
+                {
+                    path:'order',
+                    component: () => import('@/pages/user/order/index.vue'),
+                },
+                {
+                    path:'patient',
+                    component: () => import('@/pages/user/patient/index.vue'),
+                },
+                {
+                    path:'feedback',
+                    component: () => import('@/pages/user/feedback/index.vue'),
+                }
+            ]
+        },
+        {
             path: '/hospital',
             component: () => import('@/pages/hospital/index.vue'),
             children: [

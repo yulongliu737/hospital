@@ -4,7 +4,7 @@ import {
   Menu as IconMenu,
   ChatRound,
   InfoFilled,
-  Pointer
+  Pointer, House
 } from '@element-plus/icons-vue'
 import {useRoute, useRouter} from "vue-router";
 import useDetailStore from "@/store/modules/hospitalDetail.ts";
@@ -26,6 +26,12 @@ onMounted(() => {
 <template>
 <div class="hospital">
   <div class="menu">
+    <div class="title">
+      <div class="icon">
+        <el-icon><house/></el-icon>
+      </div>
+      <span>医院信息</span>
+    </div>
     <el-menu
         :default-active="$route.path"
         class="el-menu-vertical-demo"
@@ -66,6 +72,16 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    .title {
+      color:#cccccc;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 10px
+      }
+      margin-bottom: 20px;
+    }
   }
   .content {
     flex: 8;

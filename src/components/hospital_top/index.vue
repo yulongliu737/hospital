@@ -15,6 +15,9 @@ const logOut = () => {
   Object.assign(userStore.loginResult, {name: '', token: ''})
   goHome()
 }
+const redirectPage = (url: string) => {
+  $router.push({path: url})
+}
 </script>
 
 <template>
@@ -36,9 +39,9 @@ const logOut = () => {
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>实名认证</el-dropdown-item>
-              <el-dropdown-item>挂号订单</el-dropdown-item>
-              <el-dropdown-item>就诊人管理</el-dropdown-item>
+              <el-dropdown-item @click="redirectPage('/user/verification')">实名认证</el-dropdown-item>
+              <el-dropdown-item @click="redirectPage('/user/order')">挂号订单</el-dropdown-item>
+              <el-dropdown-item @click="redirectPage('/user/patient')">就诊人管理</el-dropdown-item>
               <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>

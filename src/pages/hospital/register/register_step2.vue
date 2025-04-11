@@ -125,7 +125,7 @@ const changeIndex = (index: number) => {
       <el-descriptions-item label="医事服务费：："><span style="color:red">{{doctorDetail?.amount}}</span></el-descriptions-item>
     </el-descriptions>
   </el-card>
-  <div class="btn"><el-button type="primary" >确认挂号</el-button></div>
+  <div class="btn"><el-button type="primary" :disabled="clickedItemIndex === -1">确认挂号</el-button></div>
 </div>
 </template>
 

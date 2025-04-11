@@ -24,7 +24,8 @@ const getOrderDetail = async() => {
       </div>
     </template>
     <div class="top">
-      <el-tag class="ml-2" type="success">√ 预约成功 待支付</el-tag>
+      <el-tag class="ml-2" type="success" v-show="orderDetail?.orderStatus === 0">√ {{orderDetail?.param.orderStatusString}}</el-tag>
+      <el-tag class="ml-2" type="danger" v-show="orderDetail?.orderStatus !== 0">× {{orderDetail?.param.orderStatusString}}</el-tag>
       <div class="right">
         <img src="../../../../assets/images/code1.png" alt="">
         <div>

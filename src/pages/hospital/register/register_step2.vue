@@ -3,8 +3,11 @@ import {User} from '@element-plus/icons-vue'
 import Visitor from "@/pages/hospital/register/visitor.vue";
 import {onMounted, ref} from "vue";
 import {reqDocDetail, reqPatient} from "@/api/hospital";
-import type { UserArr} from "@/api/hospital/type.ts";
-import {useRoute} from "vue-router";
+import type {UserArr} from "@/api/hospital/type.ts";
+import {useRoute, useRouter} from "vue-router";
+import {reqSubmitOrder} from "@/api/user";
+import type {SubmitOrder} from "@/api/user/type.ts";
+
 onMounted(() => {
   fetchUserData()
 })
@@ -12,6 +15,7 @@ onMounted(() => {
 let $route = useRoute();
 let patients = ref<UserArr>([])
 let doctorDetail = ref<any>()
+let checkedItem = ref<any>()
 
 // 获取就诊人信息
 const fetchUserData = async () => {
@@ -63,6 +67,7 @@ const fetchUserData = async () => {
   } else {
     // 添加打桩数据
     doctorDetail.value = {
+      "id": "6225753136a9ba1be763dc18",
       "workDate":"2025-04-10",
       "param": {
         "hosname": "北京人民医院",
@@ -71,14 +76,33 @@ const fetchUserData = async () => {
       "docname": "邵逸夫",
       "title": "副主任医师",
       "skill": "内分泌代谢性疾病",
-      "amount": 100
+      "amount": 100,
+      "hoscode": "1000_0"
     }
   }
 }
 
 let clickedItemIndex = ref<number>(-1)
-const changeIndex = (index: number) => {
+const changeIndex = (index: number, item: any) => {
   clickedItemIndex.value = index
+  checkedItem.value = item
+}
+
+let orderId = ref<number>()
+let $router = useRouter()
+
+const submitOrder = async() => {
+  let hoscode = doctorDetail.value.hoscode
+  let scheduleId = doctorDetail.value.id
+  let patientId = patients.value[clickedItemIndex.value].id
+  let submitOrderResult : SubmitOrder = await reqSubmitOrder(hoscode, scheduleId, patientId as string)
+  if (submitOrderResult.code === 200) {
+    orderId.value = submitOrderResult.data
+  } else {
+    // 接口调用异常使用打桩数据
+    orderId.value = Math.floor(Math.random() * 1000) + 1
+    $router.push({path: '/user/order', query: {orderId: orderId.value}})
+  }
 }
 </script>
 
@@ -99,7 +123,7 @@ const changeIndex = (index: number) => {
           class="item"
           :patient="item"
           :isSelected = "clickedItemIndex === index"
-          @click = "changeIndex(index)"
+          @click = "changeIndex(index, item)"
           :class="{active: index === clickedItemIndex}"
           style="cursor: pointer;"
       ></Visitor>
@@ -125,7 +149,7 @@ const changeIndex = (index: number) => {
       <el-descriptions-item label="医事服务费：："><span style="color:red">{{doctorDetail?.amount}}</span></el-descriptions-item>
     </el-descriptions>
   </el-card>
-  <div class="btn"><el-button type="primary" :disabled="clickedItemIndex === -1">确认挂号</el-button></div>
+  <div class="btn"><el-button type="primary" :disabled="clickedItemIndex === -1" @click="submitOrder()">确认挂号</el-button></div>
 </div>
 </template>
 

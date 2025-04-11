@@ -18,8 +18,7 @@ const fetchUserData = async () => {
   let userResult = await reqPatient();
   if (userResult.code === 200) {
     patients.value = userResult.data;
-    // 添加打桩数据
-    patients.value.push({
+    let obj = {
       id: "234343543",
       createTime: "2023-06-02",
       updateTime: "2025-08-03",
@@ -51,7 +50,12 @@ const fetchUserData = async () => {
       isInsure:0,
       cardNo: "324324",
       status:"0"
-    })
+    }
+    // 添加打桩数据
+    patients.value.push(obj)
+    patients.value.push(obj)
+    patients.value.push(obj)
+    patients.value.push(obj)
   }
   let docDetail = await reqDocDetail($route.query.docId as string)
   if (docDetail.code === 200) {
@@ -71,6 +75,11 @@ const fetchUserData = async () => {
     }
   }
 }
+
+let clickedItemIndex = ref<number>(-1)
+const changeIndex = (index: number) => {
+  clickedItemIndex.value = index
+}
 </script>
 
 <template>
@@ -84,7 +93,16 @@ const fetchUserData = async () => {
       </div>
     </template>
     <div class="user">
-      <Visitor v-for="item in patients" :key="item.id" class="item" :patient="item"></Visitor>
+      <Visitor
+          v-for="(item, index) in patients"
+          :key="item.id"
+          class="item"
+          :patient="item"
+          :isSelected = "clickedItemIndex === index"
+          @click = "changeIndex(index)"
+          :class="{active: index === clickedItemIndex}"
+          style="cursor: pointer;"
+      ></Visitor>
     </div>
   </el-card>
   <el-card class="box-card">
@@ -134,9 +152,13 @@ const fetchUserData = async () => {
       // 指定可以换行
       flex-wrap: wrap;
       .item {
+        transition: all 0.2s;
         // 每三个换一行
         width: 31%;
         margin: 5px 7px;
+        &.active {
+          transform: scale(1.05)
+        }
       }
     }
   }

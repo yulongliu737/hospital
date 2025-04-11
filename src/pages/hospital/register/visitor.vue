@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Edit} from '@element-plus/icons-vue'
-defineProps(['patient'])
+defineProps(['patient', 'isSelected'])
 </script>
 
 <template>
@@ -23,7 +23,7 @@ defineProps(['patient'])
     <p>婚姻状况：{{ patient.isMarry === 0 ? "未婚" : "已婚" }}</p>
     <p>当前住址：{{ patient.address }}</p>
     <p>详细地址：{{ patient.param.fullAddress }}</p>
-    <div class="confirm">已选择</div>
+    <div class="confirm" v-show="isSelected">已选择</div>
   </div>
 </div>
 </template>

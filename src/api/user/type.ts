@@ -49,3 +49,7 @@ export interface PayInfo {
 export interface PayInfoResponse extends ResponseData {
     data: PayInfo
 }
+
+export interface PayResult extends ResponseData {
+    data: boolean
+}

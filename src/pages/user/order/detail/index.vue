@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import type {OrderInfo, OrderInfoResponse, PayInfo, PayInfoResponse} from "@/api/user/type.ts";
-import {reqCancelOrder, reqOrderInfo, reqQrcode} from "@/api/user";
+import type {OrderInfo, OrderInfoResponse, PayInfo, PayInfoResponse, PayResult} from "@/api/user/type.ts";
+import {reqCancelOrder, reqOrderInfo, reqQrcode, reqQueryPayStatus} from "@/api/user";
 import {InfoFilled} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
 // @ts-ignore
@@ -40,6 +40,7 @@ let cancelEvent = () => {
 let pay = ref<PayInfo>()
 
 let imgUrl = ref<string>('')
+let timer = ref<any>()
 let showPayDialog = async() => {
   let orderId = $route.query.orderId as string
   let payInfo: PayInfoResponse = await reqQrcode(orderId)
@@ -47,9 +48,27 @@ let showPayDialog = async() => {
   pay.value.codeUrl = "weixin//wxpay/bizpayurl?pr=6rI1fb7zz"
   imgUrl.value = await QRCode.toDataURL(pay.value.codeUrl)
   showPayDialogRef.value = true
+
+  // 询问支付结果
+  timer.value = setInterval(async () => {
+    let result: PayResult = await reqQueryPayStatus($route.query.orderId as string)
+    if (result.data) {
+      showPayDialogRef.value = false
+      ElMessage({
+        type: 'success',
+        message: "支付成功"
+      })
+    }
+    clearInterval(timer.value)
+    await getOrderDetail()
+  }, 2000)
 }
 
 let showPayDialogRef = ref<boolean>(false)
+let closeDialog = async() => {
+  showPayDialogRef.value = false
+  clearInterval(timer.value)
+}
 </script>
 
 <template>
@@ -125,6 +144,7 @@ let showPayDialogRef = ref<boolean>(false)
         v-model="showPayDialogRef"
         title="微信支付"
         width="400px"
+        @close="closeDialog()"
     >
       <div class="payDialog">
         <img :src = "imgUrl" alt="">
@@ -133,7 +153,7 @@ let showPayDialogRef = ref<boolean>(false)
       </div>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="showPayDialogRef = false">关闭窗口</el-button>
+        <el-button @click="closeDialog()">关闭窗口</el-button>
       </span>
       </template>
     </el-dialog>

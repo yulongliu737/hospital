@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type {OrderInfoResponse, PayInfoResponse, SubmitOrder} from "@/api/user/type.ts";
+import type {OrderInfoResponse, PayInfoResponse, PayResult, SubmitOrder} from "@/api/user/type.ts";
 
 enum API {
     SUBMIT_ORDER_URL = 'order/orderInfo/auth/submitOrder/',
@@ -8,7 +8,9 @@ enum API {
     // 取消订单
     ORDER_CANCEL_URL = 'order/orderInfo/auth/cancelOrder/',
     // 获取订单支付二维码
-    QRCODE_URL = '/order/weixin/createNative/'
+    QRCODE_URL = '/order/weixin/createNative/',
+    // 查询订单支付的结果
+    PAY_RESULT_URL = 'order/weixin/queryPayStatus/',
 }
 
 export const reqSubmitOrder = (hoscode: string, scheduleId: string, patientId: number) => request.post<any, SubmitOrder>(API.SUBMIT_ORDER_URL + `${hoscode}/${scheduleId}/${patientId}`, {})
@@ -18,3 +20,5 @@ export const reqOrderInfo = (id: string) => request.get<any, OrderInfoResponse>(
 export const reqCancelOrder = (id: string) => request.get<any, any>(API.ORDER_CANCEL_URL + id)
 
 export const reqQrcode = (orderId: string) => request.get<any, PayInfoResponse>(API.QRCODE_URL + orderId)
+
+export const reqQueryPayStatus = (orderId: string) => request.get<any, PayResult>(API.PAY_RESULT_URL + orderId)

@@ -37,3 +37,15 @@ export interface OrderInfo {
 export interface OrderInfoResponse extends ResponseData {
     data: OrderInfo
 }
+
+// 支付二维码
+export interface PayInfo {
+    codeUrl: string,
+    orderId:number,
+    totalFee: number,
+    resultCode: string
+}
+
+export interface PayInfoResponse extends ResponseData {
+    data: PayInfo
+}

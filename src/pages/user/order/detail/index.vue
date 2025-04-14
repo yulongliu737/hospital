@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import type {OrderInfo, OrderInfoResponse} from "@/api/user/type.ts";
-import {reqCancelOrder, reqOrderInfo} from "@/api/user";
+import type {OrderInfo, OrderInfoResponse, PayInfo, PayInfoResponse} from "@/api/user/type.ts";
+import {reqCancelOrder, reqOrderInfo, reqQrcode} from "@/api/user";
 import {InfoFilled} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
+// @ts-ignore
+import QRCode from 'qrcode'
 
 let $route = useRoute()
 onMounted(() => {
@@ -35,7 +37,15 @@ let cancelEvent = () => {
   return;
 }
 
-let showPayDialog = () => {
+let pay = ref<PayInfo>()
+
+let imgUrl = ref<string>('')
+let showPayDialog = async() => {
+  let orderId = $route.query.orderId as string
+  let payInfo: PayInfoResponse = await reqQrcode(orderId)
+  pay.value = payInfo.data
+  pay.value.codeUrl = "weixin//wxpay/bizpayurl?pr=6rI1fb7zz"
+  imgUrl.value = await QRCode.toDataURL(pay.value.codeUrl)
   showPayDialogRef.value = true
 }
 
@@ -117,7 +127,7 @@ let showPayDialogRef = ref<boolean>(false)
         width="400px"
     >
       <div class="payDialog">
-        <img src = "../../../../assets/images/code1.png" alt="">
+        <img :src = "imgUrl" alt="">
         <p>请使用微信</p>
         <p>扫码支付</p>
       </div>

@@ -2,7 +2,9 @@
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import type {OrderInfo, OrderInfoResponse} from "@/api/user/type.ts";
-import {reqOrderInfo} from "@/api/user";
+import {reqCancelOrder, reqOrderInfo} from "@/api/user";
+import {InfoFilled} from "@element-plus/icons-vue";
+import {ElMessage} from "element-plus";
 
 let $route = useRoute()
 onMounted(() => {
@@ -13,7 +15,31 @@ let orderDetail = ref<OrderInfo>()
 const getOrderDetail = async() => {
   let orderResult : OrderInfoResponse = await reqOrderInfo($route.query.orderId as string)
   orderDetail.value = orderResult.data
+  // 打桩数据
+  orderDetail.value.orderStatus = 0
 }
+
+let confirmEvent = async() => {
+  try {
+    await reqCancelOrder($route.query.orderId as string)
+    await getOrderDetail()
+  } catch (e) {
+    ElMessage({
+      type: 'error',
+      message: '取消预约失败'
+    })
+  }
+}
+
+let cancelEvent = () => {
+  return;
+}
+
+let showPayDialog = () => {
+  showPayDialogRef.value = true
+}
+
+let showPayDialogRef = ref<boolean>(false)
 </script>
 
 <template>
@@ -67,11 +93,40 @@ const getOrderDetail = async() => {
           </div>
         </div>
       </div>
-      <div class="btn">
-        <el-button>取消预约</el-button>
-        <el-button type="primary">支付</el-button>
+      <div class="btn" v-if="orderDetail?.orderStatus === 0 || orderDetail?.orderStatus === 1">
+        <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="关闭"
+            :icon="InfoFilled"
+            icon-color="#626AEF"
+            title="确认要取消预约吗?"
+            @confirm="confirmEvent"
+            @cancel="cancelEvent"
+        >
+          <template #reference>
+            <el-button>取消预约</el-button>
+          </template>
+        </el-popconfirm>
+        <el-button type="primary" v-if="orderDetail?.orderStatus === 0" @click="showPayDialog()">支付</el-button>
       </div>
     </template>
+
+    <el-dialog
+        v-model="showPayDialogRef"
+        title="微信支付"
+        width="400px"
+    >
+      <div class="payDialog">
+        <img src = "../../../../assets/images/code1.png" alt="">
+        <p>请使用微信</p>
+        <p>扫码支付</p>
+      </div>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="showPayDialogRef = false">关闭窗口</el-button>
+      </span>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -128,6 +183,19 @@ const getOrderDetail = async() => {
   .btn {
     display: flex;
     justify-content: center;
+  }
+}
+::v-deep(.el-dialog__body) {
+  border-top: #e6e2e2 1px solid;
+  border-bottom: #e6e2e2 1px solid;
+}
+.payDialog {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  align-items: center;
+  p {
+    margin-top: 10px;
   }
 }
 </style>

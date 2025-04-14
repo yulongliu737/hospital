@@ -94,8 +94,8 @@ let $router = useRouter()
 const submitOrder = async() => {
   let hoscode = doctorDetail.value.hoscode
   let scheduleId = doctorDetail.value.id
-  let patientId = patients.value[clickedItemIndex.value].id
-  let submitOrderResult : SubmitOrder = await reqSubmitOrder(hoscode, scheduleId, patientId as string)
+  let patientId = parseInt(patients.value[clickedItemIndex.value].id)
+  let submitOrderResult : SubmitOrder = await reqSubmitOrder(hoscode, scheduleId, patientId)
   if (submitOrderResult.code === 200) {
     orderId.value = submitOrderResult.data
   } else {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {InfoFilled} from "@element-plus/icons-vue";
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import type {UserParams} from "@/api/user/type.ts";
 import {ElMessage} from "element-plus";
 let userForm = reactive<UserParams>({
@@ -15,6 +15,24 @@ const exceedHandler = () => {
     type : 'warning',
     message: '只能上传一张图片'
   })
+}
+
+const successHandler = (response: any, uploadFile: any, uploadFiles: any) => {
+  // 上传的文件信息
+  console.log(uploadFile)
+  // 上传多个文件的文件信息数组
+  console.log(uploadFiles)
+
+  // 收集上传成功图片地址
+  // 第一个参数 上传成功的结果
+  userForm.certificatesUrl = response.data
+}
+
+let dialogVisible = ref<boolean>(false)
+
+// 预览
+const previewHandler = ( uploadFile: any) => {
+  dialogVisible.value = true
 }
 </script>
 
@@ -57,13 +75,17 @@ const exceedHandler = () => {
           <el-form-item label="上传证件">
             <el-upload
                 list-type="picture-card"
-                v-model="userForm.certificatesUrl"
                 action="/api/oss/file/fileUpload?fileHost=userAuah"
                 :limit="1"
                 :on-exceed="exceedHandler"
+                :on-success="successHandler"
+                :on-preview="previewHandler"
             >
                 <img src="../../../assets/images/zpq.png" alt="" style="width: 100%;height: 100%;">
             </el-upload>
+            <el-dialog v-model="dialogVisible">
+              <img :src="userForm.certificatesUrl" alt="Preview Image" style="width: 100%;height: 100%;" v-if="userForm.certificatesUrl">
+            </el-dialog>
           </el-form-item>
           <div class="btns">
             <el-button type="primary">提交</el-button>

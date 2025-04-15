@@ -53,3 +53,11 @@ export interface PayInfoResponse extends ResponseData {
 export interface PayResult extends ResponseData {
     data: boolean
 }
+
+// 实名认证表单入参
+export interface UserParams {
+    certificatesNo: string,
+    certificatesType: string,
+    certificatesUrl: string,
+    name: string
+}

@@ -1,5 +1,21 @@
 <script setup lang="ts">
 import {InfoFilled} from "@element-plus/icons-vue";
+import {reactive} from "vue";
+import type {UserParams} from "@/api/user/type.ts";
+import {ElMessage} from "element-plus";
+let userForm = reactive<UserParams>({
+  certificatesNo: '',
+  certificatesType: '',
+  certificatesUrl: '',
+  name: ''
+})
+defineOptions({name: "userFrom"})
+const exceedHandler = () => {
+  ElMessage( {
+    type : 'warning',
+    message: '只能上传一张图片'
+  })
+}
 </script>
 
 <template>
@@ -27,20 +43,24 @@ import {InfoFilled} from "@element-plus/icons-vue";
         </el-descriptions>
         <el-form style="width: 40%; margin: 20px auto">
           <el-form-item label="用户姓名">
-            <el-input placeholder="请输入用户姓名"></el-input>
+            <el-input placeholder="请输入用户姓名" v-model="userForm.name"></el-input>
           </el-form-item>
           <el-form-item label="证件类型">
-            <el-select placeholder="请选择证件类型">
-              <el-option label="身份证"></el-option>
-              <el-option label="户口本"></el-option>
+            <el-select placeholder="请选择证件类型" v-model="userForm.certificatesType">
+              <el-option label="身份证" value="10"></el-option>
+              <el-option label="户口本" value="20"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="证件号码">
-            <el-input placeholder="请输入证件号码"></el-input>
+            <el-input placeholder="请输入证件号码" v-model="userForm.certificatesNo"></el-input>
           </el-form-item>
           <el-form-item label="上传证件">
             <el-upload
                 list-type="picture-card"
+                v-model="userForm.certificatesUrl"
+                action="/api/oss/file/fileUpload?fileHost=userAuah"
+                :limit="1"
+                :on-exceed="exceedHandler"
             >
                 <img src="../../../assets/images/zpq.png" alt="" style="width: 100%;height: 100%;">
             </el-upload>

@@ -106,6 +106,10 @@ const submitOrder = async() => {
     $router.push({path: '/user/order', query: {orderId: orderId.value}})
   }
 }
+
+const addPatient = () => {
+  $router.push({path: '/hospital/add_patient'})
+}
 </script>
 
 <template>
@@ -115,7 +119,7 @@ const submitOrder = async() => {
     <template #header>
       <div class="card-header">
         <span>请选择就诊人</span>
-        <el-button class="button" type="primary" :icon="User">添加就诊人</el-button>
+        <el-button class="button" type="primary" :icon="User" @click="addPatient">添加就诊人</el-button>
       </div>
     </template>
     <div class="user">

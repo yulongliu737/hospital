@@ -12,7 +12,9 @@ enum API {
     // 查询订单支付的结果
     PAY_RESULT_URL = 'order/weixin/queryPayStatus/',
     // 用户认证
-    USER_VERIFICATION_URL = '/user/auth/userAuah'
+    USER_VERIFICATION_URL = '/user/auth/userAuah',
+    // 城市
+    CITY_URL = '/cmn/dict/findByParentId/'
 }
 
 export const reqSubmitOrder = (hoscode: string, scheduleId: string, patientId: number) => request.post<any, SubmitOrder>(API.SUBMIT_ORDER_URL + `${hoscode}/${scheduleId}/${patientId}`, {})
@@ -26,3 +28,5 @@ export const reqQrcode = (orderId: string) => request.get<any, PayInfoResponse>(
 export const reqQueryPayStatus = (orderId: string) => request.get<any, PayResult>(API.PAY_RESULT_URL + orderId)
 // 用户认证
 export const reqAuth = (data: UserParams) => request.post<any, any>(API.USER_VERIFICATION_URL, data)
+// 城市
+export const reqCity = (parentId: string) => request.get<any, any>(API.CITY_URL + parentId)

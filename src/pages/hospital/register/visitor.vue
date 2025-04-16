@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Edit} from '@element-plus/icons-vue'
+import {Edit, Delete} from '@element-plus/icons-vue'
 defineProps(['patient', 'isSelected'])
 </script>
 
@@ -12,6 +12,7 @@ defineProps(['patient', 'isSelected'])
     </div>
     <div class="right">
       <el-button type="primary" :icon="Edit" circle />
+      <el-button type="danger" :icon="Delete" circle />
     </div>
   </div>
   <div class="bottom_msg">
